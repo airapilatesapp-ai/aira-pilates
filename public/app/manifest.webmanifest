@@ -4,7 +4,7 @@
   "description": "Pilates at home, guided by voice.",
   "id": "/app/",
   "start_url": "/app/",
-  "scope": "/app/",
+  "scope": "/",
   "display": "standalone",
   "orientation": "portrait",
   "background_color": "#F6F3F8",

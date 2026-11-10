@@ -11,7 +11,7 @@ const PX = {
     pwH:'Sua assinatura não está ativa', pwNone:'Não encontramos uma assinatura para {e}.', pwEnded:'Sua assinatura terminou. Volte quando quiser: seu progresso continua salvo.',
     pwPlans:'Ver planos', pwOther:'Entrar com outro e-mail',
     cfg:'O app ainda não está configurado. Tente de novo mais tarde.', net:'Sem internet. Conecte-se e tente de novo.', retry:'Tentar de novo',
-    instH:'Coloque a Aira na tela inicial', instP:'Assim ela abre como um app, em tela cheia, com um toque.',
+    instH:'Coloque a Aira na tela inicial', instP:'Assim ela abre como um app, em tela cheia, com um toque. Na primeira vez que abrir pelo ícone, digite seu e-mail e o código de 6 números que chega por e-mail.',
     instIos1:'Toque no botão <b>Compartilhar</b> na barra do Safari', instIos2:'Role e toque em <b>Adicionar à Tela de Início</b>', instIos3:'Toque em <b>Adicionar</b>',
     instIosSafari:'No iPhone, abra este link no <b>Safari</b> para instalar.',
     instBtn:'Instalar a Aira', instDesk:'No computador, clique no ícone de instalar na barra de endereço do navegador.', later:'Agora não', done:'Pronto'
@@ -24,7 +24,7 @@ const PX = {
     pwH:"Your membership isn't active", pwNone:"We couldn't find a membership for {e}.", pwEnded:'Your membership has ended. Come back any time: your progress is saved.',
     pwPlans:'See plans', pwOther:'Use another e-mail',
     cfg:"The app isn't set up yet. Please try again later.", net:"You're offline. Connect to the internet and try again.", retry:'Try again',
-    instH:'Add Aira to your home screen', instP:'It opens like an app, full screen, in one tap.',
+    instH:'Add Aira to your home screen', instP:'It opens like an app, full screen, in one tap. The first time you open it from the icon, enter your e-mail and the 6-digit code we send you.',
     instIos1:'Tap the <b>Share</b> button in the Safari bar', instIos2:'Scroll and tap <b>Add to Home Screen</b>', instIos3:'Tap <b>Add</b>',
     instIosSafari:'On iPhone, open this link in <b>Safari</b> to install.',
     instBtn:'Install Aira', instDesk:'On a computer, click the install icon in your browser\'s address bar.', later:'Not now', done:'Done'

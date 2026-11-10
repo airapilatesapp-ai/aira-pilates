@@ -25,15 +25,24 @@
   <div class="card">
     <img src="/assets/icon-192.png" alt="" width="64" height="64" style="border-radius:16px">
     <h1 data-i18n="h">Log in to Aira</h1>
-    <p class="muted" data-i18n="p">Enter the e-mail you used to subscribe. We'll send you a link to sign in. No password needed.</p>
+    <p class="muted" data-i18n="p">Enter the e-mail you used to subscribe. We'll send you a sign-in code. No password needed.</p>
+    <div id="msg" class="note" role="status" aria-live="polite" hidden></div>
     <form id="form" novalidate style="display:flex;flex-direction:column;gap:14px">
       <div class="field">
         <label for="email" data-i18n="label">E-mail</label>
         <input class="input" id="email" type="email" inputmode="email" autocomplete="email" autocapitalize="off" spellcheck="false" required placeholder="you@example.com">
       </div>
-      <button class="btn block" id="send" type="submit" data-i18n="btn">Send my link</button>
+      <button class="btn block" id="send" type="submit" data-i18n="btn">Send my code</button>
     </form>
-    <div id="msg" class="note" role="status" aria-live="polite" hidden></div>
+    <form id="codeForm" novalidate hidden style="display:flex;flex-direction:column;gap:14px">
+      <div class="field">
+        <label for="code" data-i18n="codeLabel">6-digit code from the e-mail</label>
+        <input class="input" id="code" type="text" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]*" maxlength="8" placeholder="123456" style="font-size:24px;letter-spacing:6px;text-align:center">
+      </div>
+      <button class="btn block" id="verify" type="submit" data-i18n="codeBtn">Sign in</button>
+      <button class="btn line block" id="other" type="button" data-i18n="other">Use another e-mail</button>
+    </form>
+    <p class="small"><button type="button" id="haveCode" style="border:none;background:none;padding:0;color:var(--plum);font-weight:600;text-decoration:underline;cursor:pointer" data-i18n="have">I already have a code</button></p>
     <p class="small" data-i18n="new">New here? <a href="/#plans">Start your 7-day free trial</a>.</p>
   </div>
 </main>
@@ -43,18 +52,22 @@
 (function(){
 'use strict';
 const T = {
-  en:{ __title:'Log in · Aira', h:'Log in to Aira', p:"Enter the e-mail you used to subscribe. We'll send you a link to sign in. No password needed.",
-    label:'E-mail', btn:'Send my link', sending:'Sending…', new:'New here? <a href="/#plans">Start your 7-day free trial</a>.',
-    sent:'Check your inbox at <b>{e}</b>. Tap the button in the e-mail to open Aira. If you don\'t see it in a minute, look in Spam or Promotions.',
+  en:{ __title:'Log in · Aira', h:'Log in to Aira', p:"Enter the e-mail you used to subscribe. We'll send you a sign-in code. No password needed.",
+    label:'E-mail', btn:'Send my code', sending:'Sending…', new:'New here? <a href="/#plans">Start your 7-day free trial</a>.',
+    sent:'We sent an e-mail to <b>{e}</b>. Type the 6-digit code below, or tap the button in the e-mail. If you don\'t see it in a minute, look in Spam or Promotions.',
+    codeLabel:'6-digit code from the e-mail', codeBtn:'Sign in', other:'Use another e-mail', have:'I already have a code', checking:'Checking…',
+    badCode:'That code didn\'t work. Check the numbers, or send a new e-mail.', needEmail:'Type your e-mail first, then the code.',
     bad:'Please type a valid e-mail address.',
     none:'We couldn\'t find a membership with this e-mail. Check the spelling, or <a href="/#plans">start your free trial</a>.',
     wait:'You just asked for a link. Please wait a minute and try again.',
     off:'Login isn\'t switched on yet. Please try again later.',
     fail:'Something went wrong. Please try again in a moment.',
     expired:'That link has expired or was already used. Send yourself a new one below.' },
-  pt:{ __title:'Entrar · Aira', h:'Entrar na Aira', p:'Digite o e-mail que você usou na assinatura. Vamos te mandar um link para entrar. Não precisa de senha.',
-    label:'E-mail', btn:'Enviar meu link', sending:'Enviando…', new:'É nova por aqui? <a href="/#plans">Comece seus 7 dias grátis</a>.',
-    sent:'Veja sua caixa de entrada em <b>{e}</b>. Toque no botão do e-mail para abrir a Aira. Se não chegar em um minuto, olhe no Spam ou em Promoções.',
+  pt:{ __title:'Entrar · Aira', h:'Entrar na Aira', p:'Digite o e-mail que você usou na assinatura. Vamos te mandar um código para entrar. Não precisa de senha.',
+    label:'E-mail', btn:'Enviar meu código', sending:'Enviando…', new:'É nova por aqui? <a href="/#plans">Comece seus 7 dias grátis</a>.',
+    sent:'Mandamos um e-mail para <b>{e}</b>. Digite aqui embaixo o código de 6 números, ou toque no botão do e-mail. Se não chegar em um minuto, olhe no Spam ou em Promoções.',
+    codeLabel:'Código de 6 números do e-mail', codeBtn:'Entrar', other:'Usar outro e-mail', have:'Já tenho um código', checking:'Conferindo…',
+    badCode:'Esse código não funcionou. Confira os números ou peça um novo e-mail.', needEmail:'Digite primeiro seu e-mail e depois o código.',
     bad:'Digite um e-mail válido.',
     none:'Não encontramos uma assinatura com este e-mail. Confira se está certo, ou <a href="/#plans">comece seu teste grátis</a>.',
     wait:'Você acabou de pedir um link. Espere um minuto e tente de novo.',
@@ -79,6 +92,29 @@ Aira.supabase().then(async (sb) => {
   sb.auth.onAuthStateChange((ev, session) => { if (session) location.replace('/app/'); });
 }).catch(() => {});
 
+const codeForm = document.getElementById('codeForm'), codeIn = document.getElementById('code'), verifyBtn = document.getElementById('verify');
+let codeEmail = '';
+function showCode(email){ codeEmail = email; form.hidden = true; codeForm.hidden = false; document.getElementById('haveCode').parentElement.hidden = true; codeIn.focus(); }
+document.getElementById('haveCode').addEventListener('click', () => {
+  const email = input.value.trim().toLowerCase();
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) { show('info', D.needEmail); input.focus(); return; }
+  msg.hidden = true; showCode(email);
+});
+document.getElementById('other').addEventListener('click', () => { codeForm.hidden = true; form.hidden = false; msg.hidden = true; codeIn.value = ''; document.getElementById('haveCode').parentElement.hidden = false; input.focus(); });
+codeForm.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const token = codeIn.value.replace(/\D/g, '');
+  if (token.length < 6) { show('err', D.badCode); codeIn.focus(); return; }
+  verifyBtn.disabled = true; verifyBtn.textContent = D.checking;
+  try {
+    const sb = await Aira.supabase();
+    const { data, error } = await sb.auth.verifyOtp({ email: codeEmail, token, type: 'email' });
+    if (error || !data || !data.session) show('err', D.badCode);
+    else location.replace('/app/');
+  } catch (err) { show('err', D.fail); }
+  finally { verifyBtn.disabled = false; verifyBtn.textContent = D.codeBtn; }
+});
+
 form.addEventListener('submit', async (e) => {
   e.preventDefault();
   const email = input.value.trim().toLowerCase();
@@ -94,6 +130,7 @@ form.addEventListener('submit', async (e) => {
       else show('err', D.fail);
     } else {
       show('ok', D.sent.replace('{e}', esc(email)));
+      showCode(email);
     }
   } catch (err) {
     show('err', /configured/.test(err.message) ? D.off : D.fail);
