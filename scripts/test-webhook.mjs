@@ -53,7 +53,7 @@ process.env.STRIPE_WEBHOOK_SECRET = 'whsec_test';
 process.env.SUPABASE_URL = `http://localhost:${supa.address().port}`;
 process.env.SUPABASE_SECRET_KEY = 'sb_secret_x';
 process.env.SUPABASE_PUBLIC_KEY = 'sb_publishable_x';
-process.env.APP_URL = 'https://airapilates.com/';
+process.env.APP_URL = 'https://airapilates.app/';
 
 // Point the Stripe helper at the fake server.
 const realFetch = globalThis.fetch;
@@ -81,7 +81,7 @@ const row = db.subscribers['jane@example.com'];
 assert.equal(row.status, 'trialing'); assert.equal(row.plan, 'yearly'); assert.equal(row.stripe_customer_id, 'cus_1');
 assert.ok(row.trial_end.startsWith('2027-01-15'));
 assert.ok(db.users['jane@example.com']);
-assert.deepEqual(db.emails[0], { to: 'jane@example.com', redirect: 'https://airapilates.com/app/', create_user: false });
+assert.deepEqual(db.emails[0], { to: 'jane@example.com', redirect: 'https://airapilates.app/app/', create_user: false });
 
 // 3. Same checkout again (Stripe retry): no crash, user already exists.
 r = await send({ type: 'checkout.session.completed', data: { object: { mode: 'subscription', subscription: 'sub_1', customer: 'cus_1', customer_details: { email: 'jane@example.com' } } } });

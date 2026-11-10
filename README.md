@@ -30,7 +30,7 @@ Site de vendas, app (PWA) e ligação com Stripe e Supabase. Sem pacotes externo
 | `SUPABASE_URL` | `https://xxxx.supabase.co` |
 | `SUPABASE_PUBLIC_KEY` | Chave pública (publishable ou anon) |
 | `SUPABASE_SECRET_KEY` | Chave secreta (secret ou service_role) |
-| `APP_URL` | Endereço do site, ex.: `https://airapilates.com` |
+| `APP_URL` | Endereço do site, ex.: `https://airapilates.app` |
 | `SUPPORT_EMAIL` | (opcional) e-mail de atendimento mostrado no rodapé |
 
 ## Comandos
