@@ -1,0 +1,91 @@
+/* Aira site pages: sales page, login, welcome, legal. Brand: plum + coral on a soft lavender white. */
+:root{
+  --bg:#F6F3F8; --surface:#FFFFFF; --ink:#231A2C; --muted:#5E5468; --muted-2:#6E6578; --line:#E6DFEC;
+  --plum:#5B3F7A; --plum-deep:#3E2A55; --plum-soft:#E9E1F1; --plum-wash:#F1EBF7; --coral:#E07C55; --coral-ink:#B5532F;
+  --peach:#F7E3D7; --sage:#DCEADF; --sage-ink:#2F5A41; --lav:#CDBEDF;
+  --fig-skin:#F2C6A4; --fig-skin-mid:#E8B48F; --fig-skin-2:#D29C77; --fig-hair:#3F2620; --fig-top:#E07C55;
+  --fig-leg:#E8875F; --fig-leg-mid:#DA7650; --fig-leg-2:#C2653F;
+  --scene:#5B3F7A; --scene-glow:#6A4C8B; --scene-mat:#3A2850;
+  --font-display:'Outfit','Avenir Next',system-ui,sans-serif;
+  --font-body:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --radius:22px; --maxw:1120px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+@media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto} }
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font-body);font-size:16px;line-height:1.55;overflow-x:hidden}
+[hidden]{display:none!important}
+img,svg{display:block;max-width:100%}
+a{color:var(--plum)}
+a:hover{color:var(--plum-deep)}
+button,input,select{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--plum);outline-offset:3px;border-radius:6px}
+h1,h2,h3{font-family:var(--font-display);color:var(--plum-deep);margin:0;line-height:1.12;letter-spacing:-.5px;text-wrap:balance}
+p{margin:0}
+.wrap{width:100%;max-width:var(--maxw);margin:0 auto;padding:0 20px}
+.eyebrow{font-size:13px;font-weight:600;letter-spacing:1.4px;text-transform:uppercase;color:var(--coral-ink)}
+.muted{color:var(--muted)}
+.small{font-size:14px;color:var(--muted)}
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:54px;padding:0 28px;border-radius:999px;border:none;background:var(--plum);color:#fff;font-weight:600;font-size:17px;text-decoration:none;cursor:pointer;transition:background .15s, transform .15s}
+.btn:hover{background:var(--plum-deep);color:#fff}
+.btn:active{transform:scale(.98)}
+.btn[disabled],.btn[aria-disabled="true"]{background:#B9AEC4;cursor:not-allowed}
+.btn.light{background:#fff;color:var(--plum-deep)}
+.btn.light:hover{background:var(--plum-wash);color:var(--plum-deep)}
+.btn.line{background:transparent;color:var(--plum-deep);box-shadow:inset 0 0 0 2px var(--plum)}
+.btn.line:hover{background:var(--plum-wash)}
+.btn.block{width:100%}
+
+/* Header */
+.top{position:sticky;top:0;z-index:20;background:rgba(246,243,248,.9);backdrop-filter:saturate(1.4) blur(10px);-webkit-backdrop-filter:saturate(1.4) blur(10px);border-bottom:1px solid transparent}
+.top.scrolled{border-bottom-color:var(--line)}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;height:68px}
+.brand{display:flex;align-items:center;text-decoration:none}
+.brand img{height:36px;width:auto}
+.nav{display:flex;align-items:center;gap:6px}
+.nav a.navlink{padding:10px 12px;border-radius:12px;text-decoration:none;color:var(--ink);font-weight:500;font-size:15px}
+.nav a.navlink:hover{background:var(--plum-wash)}
+.langs{display:flex;background:var(--plum-soft);border-radius:999px;padding:3px}
+.langs button{border:none;background:transparent;border-radius:999px;min-width:44px;min-height:36px;font-size:13px;font-weight:600;color:var(--muted);cursor:pointer}
+.langs button[aria-pressed="true"]{background:#fff;color:var(--plum-deep);box-shadow:0 1px 3px rgba(35,26,44,.12)}
+@media (max-width:720px){ .nav a.hide-sm{display:none} }
+
+/* Cards and sections */
+section{padding:72px 0}
+.card{background:var(--surface);border-radius:var(--radius);padding:28px}
+.sec-head{display:flex;flex-direction:column;gap:12px;max-width:640px;margin-bottom:36px}
+.sec-head h2{font-size:clamp(30px,4.2vw,42px)}
+.sec-head p{font-size:18px;color:var(--muted)}
+.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+@media (max-width:860px){ .grid3{grid-template-columns:1fr} section{padding:56px 0} }
+
+/* Footer */
+.foot{padding:40px 0 56px;border-top:1px solid var(--line);margin-top:24px}
+.foot .wrap{display:flex;flex-wrap:wrap;gap:20px 32px;align-items:center;justify-content:space-between}
+.foot nav{display:flex;flex-wrap:wrap;gap:8px 20px;font-size:14px}
+.foot nav a{color:var(--muted);text-decoration:none}
+.foot nav a:hover{color:var(--plum-deep);text-decoration:underline}
+
+/* Simple centered pages (login, welcome) */
+.solo{min-height:100dvh;display:flex;flex-direction:column}
+.solo main{flex:1;display:flex;align-items:center;justify-content:center;padding:32px 20px 48px}
+.solo .card{width:100%;max-width:440px;padding:36px 28px;display:flex;flex-direction:column;gap:18px;box-shadow:0 30px 60px -40px rgba(62,42,85,.45)}
+.solo h1{font-size:30px}
+.field{display:flex;flex-direction:column;gap:8px}
+.field label{font-weight:600;font-size:15px}
+.input{min-height:54px;border-radius:16px;border:1.5px solid #D6CCE0;background:#fff;padding:0 16px;font-size:17px;width:100%}
+.input:focus{border-color:var(--plum);outline:none;box-shadow:0 0 0 4px var(--plum-soft)}
+.note{border-radius:16px;padding:14px 16px;font-size:15px;line-height:1.45}
+.note.ok{background:var(--sage);color:var(--sage-ink)}
+.note.err{background:#FBEBEB;color:#8A2D2D}
+.note.info{background:var(--plum-wash);color:var(--plum-deep)}
+
+/* Legal pages */
+.legal{max-width:760px;margin:0 auto;padding:48px 20px 24px}
+.legal h1{font-size:38px;margin-bottom:8px}
+.legal h2{font-size:22px;margin:32px 0 10px}
+.legal p,.legal li{color:#3A3142;font-size:16px;line-height:1.65}
+.legal p+p{margin-top:12px}
+.legal ul{padding-left:22px}

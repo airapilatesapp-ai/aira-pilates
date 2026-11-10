@@ -1,0 +1,475 @@
+<!doctype html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Aira · Pilates at home, guided by voice</title>
+<meta name="description" content="Guided 10 to 30 minute Pilates classes at home, with a voice coach that adapts to your level. Try 7 days free.">
+<meta name="theme-color" content="#F6F3F8">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Aira · Pilates that breathes with you">
+<meta property="og:description" content="15-minute Pilates classes at home, guided by voice. Try 7 days free.">
+<meta property="og:image" content="/assets/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600&family=Inter:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="/assets/site.css">
+<style>
+/* Hero */
+.hero{padding:40px 0 64px}
+.hero .wrap{display:grid;grid-template-columns:1.05fr .95fr;gap:48px;align-items:center}
+.hero h1{font-size:clamp(40px,6vw,66px);letter-spacing:-1.2px}
+.hero .lead{font-size:clamp(18px,2vw,20px);color:var(--muted);max-width:520px}
+.hero .copy{display:flex;flex-direction:column;gap:22px}
+.hero .cta{display:flex;flex-direction:column;align-items:flex-start;gap:10px}
+.facts{display:flex;flex-wrap:wrap;gap:8px}
+.facts span{background:#fff;border-radius:999px;padding:8px 14px;font-size:14px;font-weight:500;color:var(--plum-deep)}
+.stage{position:relative;justify-self:center;width:100%;max-width:440px}
+.stage svg.scene{width:100%;height:auto}
+.bubble{position:absolute;left:-8px;bottom:22px;max-width:270px;background:#fff;border-radius:18px 18px 18px 6px;padding:12px 16px;box-shadow:0 16px 40px -18px rgba(62,42,85,.5);display:flex;gap:10px;align-items:flex-start}
+.bubble .dot{flex-shrink:0;width:10px;height:10px;border-radius:50%;background:var(--coral);margin-top:7px;animation:pulse 1.6s ease-in-out infinite}
+.bubble b{display:block;font-size:12px;letter-spacing:.8px;text-transform:uppercase;color:var(--muted);font-weight:600}
+.bubble span{font-size:16px;font-weight:500;color:var(--plum-deep)}
+.namechip{position:absolute;right:6px;top:18px;background:var(--plum-deep);color:#fff;border-radius:999px;padding:8px 14px;font-size:14px;font-weight:600}
+@keyframes pulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.5);opacity:.5}}
+@media (prefers-reduced-motion: reduce){ .bubble .dot{animation:none} }
+@media (max-width:860px){
+  .hero{padding:20px 0 48px}
+  .hero .wrap{grid-template-columns:1fr;gap:28px}
+  .stage{max-width:300px}
+  .bubble{left:-4px;bottom:0}
+  .hero h1{font-size:40px}
+}
+
+/* Strip */
+.strip{background:var(--plum-deep);color:#fff;padding:22px 0}
+.strip .wrap{display:flex;flex-wrap:wrap;justify-content:space-around;gap:16px 28px;text-align:center}
+.strip b{display:block;font-family:var(--font-display);font-size:30px;font-weight:600;line-height:1.1}
+.strip span{font-size:14px;color:#D9CCE8}
+
+/* Why */
+.why .card{display:flex;flex-direction:column;gap:12px}
+.why .ic{width:52px;height:52px;border-radius:16px;display:flex;align-items:center;justify-content:center}
+.why h3{font-size:22px}
+
+/* Steps */
+.steps{counter-reset:s;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.steps li{list-style:none;background:#fff;border-radius:var(--radius);padding:26px;display:flex;flex-direction:column;gap:10px}
+.steps li::before{counter-increment:s;content:counter(s);width:40px;height:40px;border-radius:50%;background:var(--coral);color:#fff;font-family:var(--font-display);font-weight:600;font-size:19px;display:flex;align-items:center;justify-content:center}
+.steps h3{font-size:21px}
+.steps{padding:0;margin:0}
+@media (max-width:860px){ .steps{grid-template-columns:1fr} }
+
+/* Quiz */
+.quiz{background:var(--plum-soft)}
+.qbox{background:#fff;border-radius:28px;padding:32px;max-width:760px;margin:0 auto;display:flex;flex-direction:column;gap:22px}
+.qtop{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.qbar{flex:1;height:8px;border-radius:4px;background:var(--plum-soft);overflow:hidden}
+.qbar i{display:block;height:100%;background:var(--plum);border-radius:4px;transition:width .3s}
+.qbox h3{font-size:clamp(24px,3vw,30px)}
+.opts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.opts button{min-height:64px;border-radius:18px;border:1.5px solid #D6CCE0;background:#fff;padding:12px 18px;text-align:left;font-size:16px;font-weight:500;cursor:pointer;display:flex;align-items:center;gap:12px}
+.opts button:hover{border-color:var(--plum);background:var(--plum-wash)}
+.opts button .e{font-size:13px;color:var(--muted);font-weight:400;display:block}
+@media (max-width:600px){ .opts{grid-template-columns:1fr} .qbox{padding:24px 20px} }
+.result{display:grid;grid-template-columns:auto 1fr;gap:20px;align-items:center;background:var(--plum-wash);border-radius:22px;padding:22px}
+.result .badge{width:72px;height:72px;border-radius:20px;background:var(--plum);display:flex;align-items:center;justify-content:center}
+.result h4{margin:0 0 4px;font-family:var(--font-display);font-size:22px;color:var(--plum-deep)}
+.linkbtn{border:none;background:none;color:var(--plum);font-weight:600;cursor:pointer;padding:8px 0;text-decoration:underline}
+
+/* Plans */
+.plans{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;max-width:860px;margin:0 auto}
+.plan{background:#fff;border-radius:28px;padding:30px;display:flex;flex-direction:column;gap:16px;position:relative;box-shadow:inset 0 0 0 1.5px var(--line)}
+.plan.best{box-shadow:inset 0 0 0 3px var(--plum)}
+.plan .tag{position:absolute;top:-14px;left:28px;background:var(--coral);color:#fff;border-radius:999px;padding:6px 14px;font-size:13px;font-weight:600}
+.plan h3{font-size:24px}
+.price{display:flex;align-items:baseline;gap:6px}
+.price b{font-family:var(--font-display);font-size:46px;font-weight:600;color:var(--plum-deep);letter-spacing:-1px}
+.price span{color:var(--muted)}
+.plan ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:10px}
+.plan li{display:flex;gap:10px;align-items:flex-start;font-size:15px}
+.plan li svg{flex-shrink:0;margin-top:3px}
+.plan .fine{font-size:13px;color:var(--muted);text-align:center}
+@media (max-width:700px){ .plans{grid-template-columns:1fr} .plan.best{order:-1} }
+
+/* FAQ */
+.faq{max-width:760px;margin:0 auto;display:flex;flex-direction:column;gap:12px}
+.faq details{background:#fff;border-radius:18px;padding:0 22px}
+.faq summary{cursor:pointer;list-style:none;padding:20px 0;font-weight:600;font-size:17px;display:flex;justify-content:space-between;gap:16px;align-items:center}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:'+';font-size:24px;font-weight:400;color:var(--plum);line-height:1}
+.faq details[open] summary::after{content:'–'}
+.faq details p{padding:0 0 20px;color:var(--muted)}
+
+/* Final call */
+.final{background:var(--plum);border-radius:32px;padding:48px 32px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:16px;color:#fff}
+.final h2{color:#fff;font-size:clamp(30px,4vw,42px)}
+.final p{color:#E9E1F1;font-size:18px;max-width:520px}
+</style>
+</head>
+<body>
+<header class="top" id="top">
+  <div class="wrap">
+    <a class="brand" href="/" aria-label="Aira home"><img src="/assets/logo.svg" alt="Aira" width="101" height="36"></a>
+    <nav class="nav" aria-label="Main">
+      <a class="navlink hide-sm" href="#how" data-i18n="nav.how">How it works</a>
+      <a class="navlink hide-sm" href="#plans" data-i18n="nav.plans">Plans</a>
+      <a class="navlink" href="/login" data-i18n="nav.login">Log in</a>
+      <div class="langs" role="group" aria-label="Language">
+        <button type="button" data-lang-btn="en" aria-pressed="true">EN</button>
+        <button type="button" data-lang-btn="pt" aria-pressed="false">PT</button>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="wrap">
+      <div class="copy">
+        <span class="eyebrow" data-i18n="hero.eb">Pilates at home</span>
+        <h1 data-i18n="hero.h">Pilates that breathes with you.</h1>
+        <p class="lead" data-i18n="hero.p">Short guided classes with a voice coach that tells you exactly what to do. They adapt to your level, so you get stronger without guessing. No studio, no equipment.</p>
+        <div class="cta">
+          <a class="btn" href="#quiz" data-i18n="hero.cta">Find my plan · 7 days free</a>
+          <span class="small" data-i18n="hero.fine">Then $9.99/month. Cancel anytime in two taps.</span>
+        </div>
+        <div class="facts">
+          <span data-i18n="f.1">10 to 30 min</span><span data-i18n="f.2">Beginner to advanced</span><span data-i18n="f.3">Low impact</span>
+        </div>
+      </div>
+      <div class="stage">
+        <svg class="scene" viewBox="0 0 320 320" role="img" aria-label="Animated woman doing Pilates" data-i18n-attr="aria-label:hero.anim">
+          <defs><clipPath id="heroClip"><circle cx="160" cy="160" r="146"/></clipPath></defs>
+          <circle cx="160" cy="160" r="155" fill="none" stroke="#E9E1F1" stroke-width="9"/>
+          <g clip-path="url(#heroClip)">
+            <rect width="320" height="320" fill="var(--scene)"/>
+            <circle id="heroGlow" cx="160" cy="130" r="64" fill="var(--scene-glow)"/>
+            <rect y="205" width="320" height="28" fill="var(--scene-mat)"/>
+            <g id="heroFig"></g>
+          </g>
+        </svg>
+        <div class="namechip" id="heroName">The Hundred</div>
+        <div class="bubble" aria-live="off"><span class="dot"></span><div><b data-i18n="hero.coach">Voice coach</b><span id="heroCue">Breathe in for five, out for five</span></div></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="strip">
+    <div class="wrap">
+      <div><b>44</b><span data-i18n="s.1">guided exercises</span></div>
+      <div><b>23</b><span data-i18n="s.2">ready-made classes</span></div>
+      <div><b>3</b><span data-i18n="s.3">levels that adapt to you</span></div>
+      <div><b>EN · PT</b><span data-i18n="s.4">voice in English or Portuguese</span></div>
+    </div>
+  </div>
+
+  <section class="why">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow" data-i18n="w.eb">Why Aira</span>
+        <h2 data-i18n="w.h">The Pilates body, without the studio bill.</h2>
+      </div>
+      <div class="grid3">
+        <div class="card">
+          <div class="ic" style="background:var(--peach)"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#B5532F" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div>
+          <h3 data-i18n="w.1h">Fits a busy day</h3>
+          <p class="muted" data-i18n="w.1p">Classes from 10 to 30 minutes. Do one before work, at lunch or after the kids are asleep.</p>
+        </div>
+        <div class="card">
+          <div class="ic" style="background:var(--plum-soft)"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#5B3F7A" stroke-width="2" stroke-linecap="round"><path d="M12 3v18"/><path d="M8 6h8M7 10h10M8 14h8M9 18h6"/></svg></div>
+          <h3 data-i18n="w.2h">Kind to your back</h3>
+          <p class="muted" data-i18n="w.2p">Low-impact moves that build your core and posture. Beginners get simpler versions and longer breaks.</p>
+        </div>
+        <div class="card">
+          <div class="ic" style="background:var(--sage)"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#2F5A41" stroke-width="2" stroke-linecap="round"><path d="M4 14c2 0 3-2 5-2s3 2 5 2 3-2 6-2"/><path d="M4 18c2 0 3-2 5-2s3 2 5 2 3-2 6-2"/><path d="M12 4v5"/></svg></div>
+          <h3 data-i18n="w.3h">A coach in your ear</h3>
+          <p class="muted" data-i18n="w.3p">The voice counts, cues your breath and tells you when to switch, so you never stop to look at the screen.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="how" style="padding-top:24px">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow" data-i18n="h.eb">How it works</span>
+        <h2 data-i18n="h.h">Three steps to your first class.</h2>
+      </div>
+      <ol class="steps">
+        <li><h3 data-i18n="h.1h">Tell us your goal</h3><p class="muted" data-i18n="h.1p">Core, posture, glutes, flexibility or easing cramps. Pick your level and how much time you have.</p></li>
+        <li><h3 data-i18n="h.2h">Press play</h3><p class="muted" data-i18n="h.2p">An animated coach shows each move while the voice guides you. Works on your phone, tablet or computer.</p></li>
+        <li><h3 data-i18n="h.3h">Feel the change</h3><p class="muted" data-i18n="h.3p">Track your streak, and move up a level when you're ready. The classes get harder as you get stronger.</p></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="quiz" id="quiz">
+    <div class="wrap">
+      <div class="sec-head" style="margin-left:auto;margin-right:auto;text-align:center;align-items:center">
+        <span class="eyebrow" data-i18n="q.eb">30-second quiz</span>
+        <h2 data-i18n="q.h">Find the plan made for you.</h2>
+      </div>
+      <div class="qbox" id="qbox" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <section id="plans">
+    <div class="wrap">
+      <div class="sec-head" style="margin-left:auto;margin-right:auto;text-align:center;align-items:center">
+        <span class="eyebrow" data-i18n="p.eb">Plans</span>
+        <h2 data-i18n="p.h">Start free for 7 days.</h2>
+        <p data-i18n="p.p">You won't be charged today. Cancel before the trial ends and you pay nothing.</p>
+      </div>
+      <div class="plans">
+        <div class="plan best">
+          <span class="tag" data-i18n="p.save">Save 58%</span>
+          <h3 data-i18n="p.y">Yearly</h3>
+          <div class="price"><b>$49.99</b><span data-i18n="p.yr">/ year</span></div>
+          <p class="small" data-i18n="p.ym">Just $4.17 a month, billed once a year after your free week.</p>
+          <ul>
+            <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5B3F7A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg><span data-i18n="p.b1">Every class and exercise</span></li>
+            <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5B3F7A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg><span data-i18n="p.b2">Voice coach in English or Portuguese</span></li>
+            <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5B3F7A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg><span data-i18n="p.b3">Plans that adapt to your level</span></li>
+          </ul>
+          <a class="btn block" data-plan="yearly" href="#plans" data-i18n="p.cta">Start my free week</a>
+          <p class="fine" data-i18n="p.fy">7 days free, then $49.99/year.</p>
+        </div>
+        <div class="plan">
+          <h3 data-i18n="p.m">Monthly</h3>
+          <div class="price"><b>$9.99</b><span data-i18n="p.mo">/ month</span></div>
+          <p class="small" data-i18n="p.mm">Pay month to month after your free week.</p>
+          <ul>
+            <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5B3F7A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg><span data-i18n="p.b1">Every class and exercise</span></li>
+            <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5B3F7A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg><span data-i18n="p.b2">Voice coach in English or Portuguese</span></li>
+            <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5B3F7A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg><span data-i18n="p.b3">Plans that adapt to your level</span></li>
+          </ul>
+          <a class="btn line block" data-plan="monthly" href="#plans" data-i18n="p.cta">Start my free week</a>
+          <p class="fine" data-i18n="p.fm">7 days free, then $9.99/month.</p>
+        </div>
+      </div>
+      <p class="small" style="text-align:center;margin-top:20px" id="soon" hidden data-i18n="p.soon">Sign-ups open very soon.</p>
+    </div>
+  </section>
+
+  <section style="padding-top:16px">
+    <div class="wrap">
+      <div class="sec-head" style="margin-left:auto;margin-right:auto;text-align:center;align-items:center">
+        <span class="eyebrow" data-i18n="faq.eb">Questions</span>
+        <h2 data-i18n="faq.h">Good to know</h2>
+      </div>
+      <div class="faq">
+        <details><summary data-i18n="faq.1q">Do I need any equipment?</summary><p data-i18n="faq.1a">Just a mat or a soft rug. Every class is done on the floor or standing, using your own body weight.</p></details>
+        <details><summary data-i18n="faq.2q">I've never done Pilates. Is it for me?</summary><p data-i18n="faq.2a">Yes. Pick Beginner and Aira gives you simpler versions of each move, longer breaks and a 14-day path to learn the basics.</p></details>
+        <details><summary data-i18n="faq.3q">How does the free trial work?</summary><p data-i18n="faq.3a">You enter your card to start, but you're not charged for 7 days. Cancel before then in two taps and you pay nothing.</p></details>
+        <details><summary data-i18n="faq.4q">How do I cancel?</summary><p data-i18n="faq.4a">Open Aira, go to Progress and tap Manage subscription. You can cancel, switch plans or update your card yourself, any time.</p></details>
+        <details><summary data-i18n="faq.5q">Which devices does it work on?</summary><p data-i18n="faq.5a">iPhone, Android, tablets and computers. Aira opens in your browser and you can add it to your home screen like any app. No app store download needed.</p></details>
+        <details><summary data-i18n="faq.6q">Is it safe if I'm pregnant or have an injury?</summary><p data-i18n="faq.6a">Please talk to your doctor before starting any exercise program, especially during pregnancy, after surgery or with back pain. Stop any move that hurts.</p></details>
+      </div>
+    </div>
+  </section>
+
+  <section style="padding-top:24px">
+    <div class="wrap">
+      <div class="final">
+        <img src="/assets/symbol-white.svg" alt="" width="72" height="72">
+        <h2 data-i18n="end.h">Your first class takes 10 minutes.</h2>
+        <p data-i18n="end.p">Try every class free for 7 days. If it's not for you, cancel in two taps.</p>
+        <a class="btn light" href="#quiz" data-i18n="end.cta">Find my plan</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <img src="/assets/logo.svg" alt="Aira" width="84" height="30">
+    <nav aria-label="Footer">
+      <a href="/login" data-i18n="nav.login">Log in</a>
+      <a href="/terms" data-i18n="ft.terms">Terms</a>
+      <a href="/privacy" data-i18n="ft.privacy">Privacy</a>
+      <a href="#" id="support" hidden data-i18n="ft.help">Help</a>
+    </nav>
+    <span class="small">© <span id="yr">2026</span> Aira Pilates</span>
+  </div>
+</footer>
+
+<script src="/assets/aira.js"></script>
+<script src="/assets/figure.js"></script>
+<script>
+(function(){
+'use strict';
+const T = {
+  en: {
+    __title:'Aira · Pilates at home, guided by voice',
+    'nav.how':'How it works','nav.plans':'Plans','nav.login':'Log in',
+    'hero.eb':'Pilates at home','hero.h':'Pilates that breathes with you.',
+    'hero.p':'Short guided classes with a voice coach that tells you exactly what to do. They adapt to your level, so you get stronger without guessing. No studio, no equipment.',
+    'hero.cta':'Find my plan · 7 days free','hero.fine':'Then $9.99/month. Cancel anytime in two taps.','hero.coach':'Voice coach','hero.anim':'Animated woman doing Pilates',
+    'f.1':'10 to 30 min','f.2':'Beginner to advanced','f.3':'Low impact',
+    's.1':'guided exercises','s.2':'ready-made classes','s.3':'levels that adapt to you','s.4':'voice in English or Portuguese',
+    'w.eb':'Why Aira','w.h':'The Pilates body, without the studio bill.',
+    'w.1h':'Fits a busy day','w.1p':'Classes from 10 to 30 minutes. Do one before work, at lunch or after the kids are asleep.',
+    'w.2h':'Kind to your back','w.2p':'Low-impact moves that build your core and posture. Beginners get simpler versions and longer breaks.',
+    'w.3h':'A coach in your ear','w.3p':'The voice counts, cues your breath and tells you when to switch, so you never stop to look at the screen.',
+    'h.eb':'How it works','h.h':'Three steps to your first class.',
+    'h.1h':'Tell us your goal','h.1p':'Core, posture, glutes, flexibility or easing cramps. Pick your level and how much time you have.',
+    'h.2h':'Press play','h.2p':'An animated coach shows each move while the voice guides you. Works on your phone, tablet or computer.',
+    'h.3h':'Feel the change','h.3p':"Track your streak, and move up a level when you're ready. The classes get harder as you get stronger.",
+    'q.eb':'30-second quiz','q.h':'Find the plan made for you.',
+    'p.eb':'Plans','p.h':'Start free for 7 days.','p.p':"You won't be charged today. Cancel before the trial ends and you pay nothing.",
+    'p.save':'Save 58%','p.y':'Yearly','p.yr':'/ year','p.ym':'Just $4.17 a month, billed once a year after your free week.',
+    'p.m':'Monthly','p.mo':'/ month','p.mm':'Pay month to month after your free week.',
+    'p.b1':'Every class and exercise','p.b2':'Voice coach in English or Portuguese','p.b3':'Plans that adapt to your level',
+    'p.cta':'Start my free week','p.fy':'7 days free, then $49.99/year.','p.fm':'7 days free, then $9.99/month.','p.soon':'Sign-ups open very soon.',
+    'faq.eb':'Questions','faq.h':'Good to know',
+    'faq.1q':'Do I need any equipment?','faq.1a':'Just a mat or a soft rug. Every class is done on the floor or standing, using your own body weight.',
+    'faq.2q':"I've never done Pilates. Is it for me?",'faq.2a':'Yes. Pick Beginner and Aira gives you simpler versions of each move, longer breaks and a 14-day path to learn the basics.',
+    'faq.3q':'How does the free trial work?','faq.3a':"You enter your card to start, but you're not charged for 7 days. Cancel before then in two taps and you pay nothing.",
+    'faq.4q':'How do I cancel?','faq.4a':'Open Aira, go to Progress and tap Manage subscription. You can cancel, switch plans or update your card yourself, any time.',
+    'faq.5q':'Which devices does it work on?','faq.5a':'iPhone, Android, tablets and computers. Aira opens in your browser and you can add it to your home screen like any app. No app store download needed.',
+    'faq.6q':"Is it safe if I'm pregnant or have an injury?",'faq.6a':'Please talk to your doctor before starting any exercise program, especially during pregnancy, after surgery or with back pain. Stop any move that hurts.',
+    'end.h':'Your first class takes 10 minutes.','end.p':"Try every class free for 7 days. If it's not for you, cancel in two taps.",'end.cta':'Find my plan',
+    'ft.terms':'Terms','ft.privacy':'Privacy','ft.help':'Help',
+    quiz: {
+      step:'Question {n} of 3', back:'Back',
+      q:[
+        { h:'What do you want most?', o:[['core','A stronger, flatter core'],['postura','Better posture, less back pain'],['gluteos','Toned glutes and legs'],['flex','More flexibility and calm']] },
+        { h:'How much Pilates have you done?', o:[['1','None, or it’s been a while','Beginner'],['2','I know the basic moves','Intermediate'],['3','I practice regularly','Advanced']] },
+        { h:'How much time do you have on most days?', o:[['10','10 minutes'],['15','15 minutes'],['20','20 minutes'],['30','30 minutes']] }
+      ],
+      lv:{1:'Beginner',2:'Intermediate',3:'Advanced'},
+      goal:{core:'Core',postura:'Posture',gluteos:'Glutes & legs',flex:'Flexibility'},
+      res:'Your plan: {g} · {l} · {m} min a day',
+      resP:'Your classes are ready. They start at your level and get harder as you get stronger. Your answers are saved for when you open the app.',
+      cta:'See plans', again:'Retake the quiz'
+    }
+  },
+  pt: {
+    __title:'Aira · Pilates em casa, guiado por voz',
+    'nav.how':'Como funciona','nav.plans':'Planos','nav.login':'Entrar',
+    'hero.eb':'Pilates em casa','hero.h':'Pilates que respira com você.',
+    'hero.p':'Aulas curtas e guiadas por uma voz que diz exatamente o que fazer. Elas se adaptam ao seu nível, para você ficar mais forte sem adivinhar. Sem estúdio e sem equipamento.',
+    'hero.cta':'Descobrir meu plano · 7 dias grátis','hero.fine':'Depois US$ 9,99 por mês. Cancele quando quiser em dois toques.','hero.coach':'Voz guia','hero.anim':'Mulher animada fazendo Pilates',
+    'f.1':'10 a 30 min','f.2':'Do iniciante ao avançado','f.3':'Baixo impacto',
+    's.1':'exercícios guiados','s.2':'aulas prontas','s.3':'níveis que se adaptam a você','s.4':'voz em inglês ou português',
+    'w.eb':'Por que a Aira','w.h':'O corpo do Pilates, sem a conta do estúdio.',
+    'w.1h':'Cabe no dia corrido','w.1p':'Aulas de 10 a 30 minutos. Faça antes do trabalho, no almoço ou depois que as crianças dormem.',
+    'w.2h':'Cuida das suas costas','w.2p':'Movimentos de baixo impacto que fortalecem o centro do corpo e a postura. Iniciantes recebem versões mais simples e pausas maiores.',
+    'w.3h':'Uma professora no seu ouvido','w.3p':'A voz conta, lembra a respiração e avisa quando trocar, para você não precisar olhar para a tela.',
+    'h.eb':'Como funciona','h.h':'Três passos até a primeira aula.',
+    'h.1h':'Conte seu objetivo','h.1p':'Abdômen, postura, glúteos, flexibilidade ou aliviar cólicas. Escolha seu nível e quanto tempo você tem.',
+    'h.2h':'Aperte o play','h.2p':'Uma professora animada mostra cada movimento enquanto a voz guia. Funciona no celular, tablet ou computador.',
+    'h.3h':'Sinta a diferença','h.3p':'Acompanhe sua sequência de dias e suba de nível quando estiver pronta. As aulas evoluem junto com você.',
+    'q.eb':'Quiz de 30 segundos','q.h':'Descubra o plano feito para você.',
+    'p.eb':'Planos','p.h':'Comece com 7 dias grátis.','p.p':'Nada é cobrado hoje. Cancele antes do fim do teste e você não paga nada.',
+    'p.save':'Economize 58%','p.y':'Anual','p.yr':'/ ano','p.ym':'Só US$ 4,17 por mês, cobrado uma vez por ano depois da semana grátis.',
+    'p.m':'Mensal','p.mo':'/ mês','p.mm':'Pague mês a mês depois da semana grátis.',
+    'p.b1':'Todas as aulas e exercícios','p.b2':'Voz guia em inglês ou português','p.b3':'Planos que se adaptam ao seu nível',
+    'p.cta':'Começar minha semana grátis','p.fy':'7 dias grátis, depois US$ 49,99 por ano.','p.fm':'7 dias grátis, depois US$ 9,99 por mês.','p.soon':'As inscrições abrem em breve.',
+    'faq.eb':'Dúvidas','faq.h':'Bom saber',
+    'faq.1q':'Preciso de algum equipamento?','faq.1a':'Só um tapete ou colchonete. Todas as aulas são no chão ou em pé, com o peso do próprio corpo.',
+    'faq.2q':'Nunca fiz Pilates. É para mim?','faq.2a':'Sim. Escolha Iniciante e a Aira mostra versões mais simples de cada movimento, pausas maiores e um caminho de 14 dias para aprender o básico.',
+    'faq.3q':'Como funciona o teste grátis?','faq.3a':'Você coloca o cartão para começar, mas nada é cobrado por 7 dias. Cancele antes em dois toques e você não paga nada.',
+    'faq.4q':'Como eu cancelo?','faq.4a':'Abra a Aira, vá em Progresso e toque em Gerenciar assinatura. Você cancela, troca de plano ou atualiza o cartão sozinha, quando quiser.',
+    'faq.5q':'Em quais aparelhos funciona?','faq.5a':'iPhone, Android, tablets e computadores. A Aira abre no navegador e você pode colocar na tela inicial como qualquer app. Não precisa baixar da loja.',
+    'faq.6q':'É seguro se eu estiver grávida ou com alguma lesão?','faq.6a':'Converse com seu médico antes de começar qualquer programa de exercícios, principalmente na gravidez, depois de cirurgias ou com dor nas costas. Pare qualquer movimento que doer.',
+    'end.h':'Sua primeira aula leva 10 minutos.','end.p':'Experimente todas as aulas grátis por 7 dias. Se não for para você, cancele em dois toques.','end.cta':'Descobrir meu plano',
+    'ft.terms':'Termos','ft.privacy':'Privacidade','ft.help':'Ajuda',
+    quiz: {
+      step:'Pergunta {n} de 3', back:'Voltar',
+      q:[
+        { h:'O que você mais quer?', o:[['core','Um abdômen mais forte e definido'],['postura','Postura melhor e menos dor nas costas'],['gluteos','Glúteos e pernas tonificados'],['flex','Mais flexibilidade e calma']] },
+        { h:'Quanto Pilates você já fez?', o:[['1','Nunca, ou faz tempo','Iniciante'],['2','Conheço os exercícios básicos','Intermediária'],['3','Pratico com frequência','Avançada']] },
+        { h:'Quanto tempo você tem na maioria dos dias?', o:[['10','10 minutos'],['15','15 minutos'],['20','20 minutos'],['30','30 minutos']] }
+      ],
+      lv:{1:'Iniciante',2:'Intermediária',3:'Avançada'},
+      goal:{core:'Abdômen',postura:'Postura',gluteos:'Glúteos e pernas',flex:'Flexibilidade'},
+      res:'Seu plano: {g} · {l} · {m} min por dia',
+      resP:'Suas aulas estão prontas. Elas começam no seu nível e ficam mais difíceis conforme você fica mais forte. Suas respostas ficam salvas para quando você abrir o app.',
+      cta:'Ver os planos', again:'Refazer o quiz'
+    }
+  }
+};
+let D = T.en, L = 'en';
+const fill = (s, v) => s.replace(/\{(\w+)\}/g, (_, k) => v[k]);
+
+/* ---------- Quiz ---------- */
+const box = document.getElementById('qbox');
+let step = 0, ans = {};
+try { const saved = JSON.parse(Aira.store.get('aira.quiz') || 'null'); if (saved && saved.goal) { ans = saved; step = 3; } } catch (e) {}
+function drawQuiz(){
+  const Q = D.quiz;
+  if (step >= 3) {
+    box.innerHTML = `<div class="result"><div class="badge"><img src="/assets/symbol-white.svg" alt="" width="44" height="44"></div>
+      <div><h4>${fill(Q.res, {g:Q.goal[ans.goal], l:Q.lv[ans.level], m:ans.time})}</h4><p class="small">${Q.resP}</p></div></div>
+      <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between">
+        <a class="btn" href="#plans">${Q.cta}</a><button type="button" class="linkbtn" data-q="again">${Q.again}</button></div>`;
+    return;
+  }
+  const q = Q.q[step], keys = ['goal','level','time'];
+  box.innerHTML = `<div class="qtop"><span class="small" style="font-weight:600">${fill(Q.step, {n:step + 1})}</span>
+      <div class="qbar" aria-hidden="true"><i style="width:${(step + 1) / 3 * 100}%"></i></div>
+      ${step ? `<button type="button" class="linkbtn" data-q="back">${Q.back}</button>` : ''}</div>
+    <h3>${q.h}</h3>
+    <div class="opts">${q.o.map(o => `<button type="button" data-q="pick" data-k="${keys[step]}" data-v="${o[0]}">${o[2] ? `<span><span>${o[1]}</span><span class="e">${o[2]}</span></span>` : o[1]}</button>`).join('')}</div>`;
+}
+box.addEventListener('click', (e) => {
+  const b = e.target.closest('[data-q]'); if (!b) return;
+  if (b.dataset.q === 'pick') { ans[b.dataset.k] = b.dataset.k === 'goal' ? b.dataset.v : Number(b.dataset.v); step++; if (step >= 3) Aira.store.set('aira.quiz', JSON.stringify(ans)); }
+  if (b.dataset.q === 'back') step = Math.max(0, step - 1);
+  if (b.dataset.q === 'again') { step = 0; ans = {}; Aira.store.del('aira.quiz'); }
+  drawQuiz();
+  const first = box.querySelector('button'); if (first && b.dataset.q !== 'again') first.focus({preventScroll:true});
+});
+
+/* ---------- Plans: links come from the server settings ---------- */
+Aira.config().then((c) => {
+  const links = { monthly: c.linkMonthly, yearly: c.linkYearly };
+  let missing = false;
+  document.querySelectorAll('[data-plan]').forEach((a) => {
+    const url = links[a.dataset.plan];
+    if (url) a.href = url;
+    else { a.setAttribute('aria-disabled', 'true'); a.removeAttribute('href'); missing = true; }
+  });
+  document.getElementById('soon').hidden = !missing;
+  if (c.supportEmail) { const s = document.getElementById('support'); s.href = 'mailto:' + c.supportEmail; s.hidden = false; }
+});
+
+/* ---------- Hero animation, using the same figure as the app ---------- */
+const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const F = window.AiraFig;
+const SHOW = ['hundred','bridge','swan','sidekick','mermaid','teaser'];
+const g = document.getElementById('heroFig'), nameEl = document.getElementById('heroName'), cueEl = document.getElementById('heroCue');
+let idx = 0, t0 = performance.now(), lastCue = '';
+function label(id, field){ const e = F.EX[id]; return (L === 'en' && e.en && e.en[field]) ? e.en[field] : e[field]; }
+function paint(p){ const sc = p.k || 1.2; g.setAttribute('transform', `translate(${(160 - 160 * sc).toFixed(1)} ${(205 - 192 * sc).toFixed(1)}) scale(${sc.toFixed(3)})`); g.innerHTML = F.figure(p); }
+function frame(now){
+  const id = SHOW[idx], e = F.EX[id], per = e.period * 1000;
+  const time = now - t0, ph = (time % per) / per;
+  const k = ph < .5 ? F.ease(ph * 2) : F.ease(1 - (ph - .5) * 2);
+  paint(F.mix(e.A, e.B, k, false));
+  const cue = label(id, ph < .5 ? 'cueAB' : 'cueBA');
+  if (cue !== lastCue) { lastCue = cue; cueEl.textContent = cue; }
+  if (time > per * 2) { idx = (idx + 1) % SHOW.length; t0 = now; nameEl.textContent = label(SHOW[idx], 'name'); }
+  requestAnimationFrame(frame);
+}
+function startHero(){
+  nameEl.textContent = label(SHOW[idx], 'name');
+  if (reduce) { paint(F.EX[SHOW[idx]].B); cueEl.textContent = label(SHOW[idx], 'tip'); return; }
+  requestAnimationFrame(frame);
+}
+
+/* ---------- Language + header shadow ---------- */
+L = Aira.translatePage(T, (l, d) => { L = l; D = d; drawQuiz(); if (F) { nameEl.textContent = label(SHOW[idx], 'name'); lastCue = ''; if (reduce) cueEl.textContent = label(SHOW[idx], 'tip'); } });
+if (F) startHero();
+document.getElementById('yr').textContent = new Date().getFullYear();
+const top = document.getElementById('top');
+addEventListener('scroll', () => top.classList.toggle('scrolled', scrollY > 8), {passive:true});
+})();
+</script>
+</body>
+</html>

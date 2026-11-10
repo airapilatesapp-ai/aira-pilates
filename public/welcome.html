@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Welcome to Aira</title>
+<meta name="theme-color" content="#F6F3F8">
+<meta name="robots" content="noindex">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600&family=Inter:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="/assets/site.css">
+<style>
+.check{width:72px;height:72px;border-radius:50%;background:var(--sage);display:flex;align-items:center;justify-content:center}
+.tips{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:12px}
+.tips li{display:flex;gap:12px;align-items:flex-start;font-size:15px;color:var(--muted)}
+.tips li b{flex-shrink:0;width:28px;height:28px;border-radius:50%;background:var(--plum-soft);color:var(--plum-deep);display:flex;align-items:center;justify-content:center;font-size:14px}
+</style>
+</head>
+<body class="solo">
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="/" aria-label="Aira home"><img src="/assets/logo.svg" alt="Aira" width="101" height="36"></a>
+    <div class="langs" role="group" aria-label="Language">
+      <button type="button" data-lang-btn="en" aria-pressed="true">EN</button>
+      <button type="button" data-lang-btn="pt" aria-pressed="false">PT</button>
+    </div>
+  </div>
+</header>
+<main>
+  <div class="card">
+    <div class="check"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#2F5A41" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg></div>
+    <h1 data-i18n="h">You're in. Your free week has started.</h1>
+    <p class="muted" id="where" data-i18n="p">We just sent your access link by e-mail. Open it on the phone you'll use for Pilates.</p>
+    <ol class="tips">
+      <li><b>1</b><span data-i18n="t1">Open the e-mail <em>"Your access to Aira Pilates"</em>. It can take a minute.</span></li>
+      <li><b>2</b><span data-i18n="t2">Tap <em>Open Aira</em>. You'll be signed in, no password needed.</span></li>
+      <li><b>3</b><span data-i18n="t3">Answer three quick questions and start your first class.</span></li>
+    </ol>
+    <div class="note info" data-i18n="spam">Can't find it? Look in Spam or Promotions, or send it again below.</div>
+    <a class="btn block line" href="/login" id="again" data-i18n="again">Send the link again</a>
+  </div>
+</main>
+<script src="/assets/aira.js"></script>
+<script>
+(function(){
+'use strict';
+const T = {
+  en:{ __title:'Welcome to Aira', h:"You're in. Your free week has started.",
+    p:"We just sent your access link by e-mail. Open it on the phone you'll use for Pilates.",
+    pTo:'We just sent your access link to <b>{e}</b>. Open it on the phone you\'ll use for Pilates.',
+    t1:'Open the e-mail <em>"Your access to Aira Pilates"</em>. It can take a minute.',
+    t2:"Tap <em>Open Aira</em>. You'll be signed in, no password needed.",
+    t3:'Answer three quick questions and start your first class.',
+    spam:"Can't find it? Look in Spam or Promotions, or send it again below.", again:'Send the link again' },
+  pt:{ __title:'Bem-vinda à Aira', h:'Pronto! Sua semana grátis começou.',
+    p:'Acabamos de mandar seu link de acesso por e-mail. Abra no celular que você vai usar para o Pilates.',
+    pTo:'Acabamos de mandar seu link de acesso para <b>{e}</b>. Abra no celular que você vai usar para o Pilates.',
+    t1:'Abra o e-mail <em>"Your access to Aira Pilates"</em>. Pode levar um minuto.',
+    t2:'Toque em <em>Abrir a Aira</em>. Você entra direto, sem senha.',
+    t3:'Responda três perguntas rápidas e comece sua primeira aula.',
+    spam:'Não achou? Olhe no Spam ou em Promoções, ou peça de novo aqui embaixo.', again:'Mandar o link de novo' }
+};
+let D = T.en, masked = '';
+const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const where = document.getElementById('where');
+const paint = () => { if (masked) where.innerHTML = D.pTo.replace('{e}', esc(masked)); };
+Aira.translatePage(T, (l, d) => { D = d; paint(); });
+const sid = new URLSearchParams(location.search).get('session_id');
+if (sid) fetch('/api/checkout-session?session_id=' + encodeURIComponent(sid)).then(r => r.ok ? r.json() : null).then(j => { if (j && j.email) { masked = j.email; paint(); } }).catch(() => {});
+})();
+</script>
+</body>
+</html>

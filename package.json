@@ -1,0 +1,14 @@
+{
+  "name": "aira-pilates",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Aira: Pilates at home, guided by voice. Sales page, app (PWA) and Stripe + Supabase connection.",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "test": "node scripts/test-webhook.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

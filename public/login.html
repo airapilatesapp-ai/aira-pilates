@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Log in · Aira</title>
+<meta name="theme-color" content="#F6F3F8">
+<meta name="robots" content="noindex">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600&family=Inter:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="/assets/site.css">
+</head>
+<body class="solo">
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="/" aria-label="Aira home"><img src="/assets/logo.svg" alt="Aira" width="101" height="36"></a>
+    <div class="langs" role="group" aria-label="Language">
+      <button type="button" data-lang-btn="en" aria-pressed="true">EN</button>
+      <button type="button" data-lang-btn="pt" aria-pressed="false">PT</button>
+    </div>
+  </div>
+</header>
+<main>
+  <div class="card">
+    <img src="/assets/icon-192.png" alt="" width="64" height="64" style="border-radius:16px">
+    <h1 data-i18n="h">Log in to Aira</h1>
+    <p class="muted" data-i18n="p">Enter the e-mail you used to subscribe. We'll send you a link to sign in. No password needed.</p>
+    <form id="form" novalidate style="display:flex;flex-direction:column;gap:14px">
+      <div class="field">
+        <label for="email" data-i18n="label">E-mail</label>
+        <input class="input" id="email" type="email" inputmode="email" autocomplete="email" autocapitalize="off" spellcheck="false" required placeholder="you@example.com">
+      </div>
+      <button class="btn block" id="send" type="submit" data-i18n="btn">Send my link</button>
+    </form>
+    <div id="msg" class="note" role="status" aria-live="polite" hidden></div>
+    <p class="small" data-i18n="new">New here? <a href="/#plans">Start your 7-day free trial</a>.</p>
+  </div>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script src="/assets/aira.js"></script>
+<script>
+(function(){
+'use strict';
+const T = {
+  en:{ __title:'Log in · Aira', h:'Log in to Aira', p:"Enter the e-mail you used to subscribe. We'll send you a link to sign in. No password needed.",
+    label:'E-mail', btn:'Send my link', sending:'Sending…', new:'New here? <a href="/#plans">Start your 7-day free trial</a>.',
+    sent:'Check your inbox at <b>{e}</b>. Tap the button in the e-mail to open Aira. If you don\'t see it in a minute, look in Spam or Promotions.',
+    bad:'Please type a valid e-mail address.',
+    none:'We couldn\'t find a membership with this e-mail. Check the spelling, or <a href="/#plans">start your free trial</a>.',
+    wait:'You just asked for a link. Please wait a minute and try again.',
+    off:'Login isn\'t switched on yet. Please try again later.',
+    fail:'Something went wrong. Please try again in a moment.',
+    expired:'That link has expired or was already used. Send yourself a new one below.' },
+  pt:{ __title:'Entrar · Aira', h:'Entrar na Aira', p:'Digite o e-mail que você usou na assinatura. Vamos te mandar um link para entrar. Não precisa de senha.',
+    label:'E-mail', btn:'Enviar meu link', sending:'Enviando…', new:'É nova por aqui? <a href="/#plans">Comece seus 7 dias grátis</a>.',
+    sent:'Veja sua caixa de entrada em <b>{e}</b>. Toque no botão do e-mail para abrir a Aira. Se não chegar em um minuto, olhe no Spam ou em Promoções.',
+    bad:'Digite um e-mail válido.',
+    none:'Não encontramos uma assinatura com este e-mail. Confira se está certo, ou <a href="/#plans">comece seu teste grátis</a>.',
+    wait:'Você acabou de pedir um link. Espere um minuto e tente de novo.',
+    off:'O login ainda não está ativado. Tente de novo mais tarde.',
+    fail:'Algo deu errado. Tente de novo em instantes.',
+    expired:'Esse link expirou ou já foi usado. Peça um novo aqui embaixo.' }
+};
+let D = T.en;
+Aira.translatePage(T, (l, d) => { D = d; });
+const form = document.getElementById('form'), input = document.getElementById('email'), btn = document.getElementById('send'), msg = document.getElementById('msg');
+const show = (kind, html) => { msg.className = 'note ' + kind; msg.innerHTML = html; msg.hidden = false; };
+const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+const qs = new URLSearchParams(location.search), hash = new URLSearchParams(location.hash.slice(1));
+if (qs.get('email')) input.value = qs.get('email');
+if (hash.get('error_code') === 'otp_expired' || /expired|invalid/i.test(hash.get('error_description') || '')) show('info', D.expired);
+
+// Already signed in (or arriving from an e-mail link): go straight to the app.
+Aira.supabase().then(async (sb) => {
+  const { data } = await sb.auth.getSession();
+  if (data && data.session) location.replace('/app/');
+  sb.auth.onAuthStateChange((ev, session) => { if (session) location.replace('/app/'); });
+}).catch(() => {});
+
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const email = input.value.trim().toLowerCase();
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) { show('err', D.bad); input.focus(); return; }
+  btn.disabled = true; btn.textContent = D.sending;
+  try {
+    const sb = await Aira.supabase();
+    const { error } = await sb.auth.signInWithOtp({ email, options: { shouldCreateUser: false, emailRedirectTo: location.origin + '/app/' } });
+    if (error) {
+      const m = (error.message || '').toLowerCase();
+      if (error.status === 429 || m.includes('rate') || m.includes('seconds')) show('err', D.wait);
+      else if (m.includes('signup') || m.includes('not allowed') || m.includes('not found') || error.status === 422 || error.status === 400) show('err', D.none);
+      else show('err', D.fail);
+    } else {
+      show('ok', D.sent.replace('{e}', esc(email)));
+    }
+  } catch (err) {
+    show('err', /configured/.test(err.message) ? D.off : D.fail);
+  } finally {
+    btn.disabled = false; btn.textContent = D.btn;
+  }
+});
+})();
+</script>
+</body>
+</html>
