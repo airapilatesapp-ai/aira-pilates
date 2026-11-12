@@ -13,6 +13,7 @@ Site de vendas, app (PWA) e ligação com Stripe e Supabase. Sem pacotes externo
 | `public/terms.html`, `public/privacy.html` | Termos de uso e política de privacidade |
 | `api/stripe-webhook.js` | Recebe os avisos da Stripe e libera ou bloqueia o acesso |
 | `api/config.js` | Entrega às páginas só as configurações públicas |
+| `api/portal-session.js` | Abre o portal da Stripe já logado quando a cliente toca em "Gerenciar assinatura" |
 | `api/checkout-session.js` | Mostra na página de boas-vindas para qual e-mail o link foi |
 | `src/` | Código-fonte do app (o mesmo do protótipo + `prod.js` com login e assinatura) |
 | `supabase/setup.sql` | Cria as tabelas no Supabase (cole no SQL Editor) |
@@ -26,7 +27,7 @@ Site de vendas, app (PWA) e ligação com Stripe e Supabase. Sem pacotes externo
 | `STRIPE_WEBHOOK_SECRET` | `whsec_…` do webhook |
 | `STRIPE_LINK_MONTHLY` | Link de pagamento do plano mensal |
 | `STRIPE_LINK_YEARLY` | Link de pagamento do plano anual |
-| `STRIPE_PORTAL_LINK` | Link do portal da cliente |
+| `STRIPE_PORTAL_LINK` | Link de login do portal (só usado se o acesso direto falhar) |
 | `SUPABASE_URL` | `https://xxxx.supabase.co` |
 | `SUPABASE_PUBLIC_KEY` | Chave pública (publishable ou anon) |
 | `SUPABASE_SECRET_KEY` | Chave secreta (secret ou service_role) |

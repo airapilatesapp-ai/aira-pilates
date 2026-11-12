@@ -6,7 +6,7 @@ const PX = {
   pt: {
     acct:'Conta', email:'E-mail', plan:'Plano', status:'Situação', monthly:'Mensal', yearly:'Anual',
     trial:'Teste grátis até {d}', active:'Ativa · renova em {d}', ending:'Termina em {d}', pastDue:'Problema no pagamento',
-    manage:'Gerenciar assinatura', signout:'Sair da conta',
+    manage:'Gerenciar assinatura', signout:'Sair da conta', opening:'Abrindo…', portalErr:'Não deu para abrir agora. Tente de novo em instantes ou escreva para {m}.',
     payH:'Seu último pagamento não passou.', payP:'Atualize o cartão para continuar com acesso às aulas.', payA:'Atualizar cartão',
     pwH:'Sua assinatura não está ativa', pwNone:'Não encontramos uma assinatura para {e}.', pwEnded:'Sua assinatura terminou. Volte quando quiser: seu progresso continua salvo.',
     pwPlans:'Ver planos', pwOther:'Entrar com outro e-mail',
@@ -19,7 +19,7 @@ const PX = {
   en: {
     acct:'Account', email:'E-mail', plan:'Plan', status:'Status', monthly:'Monthly', yearly:'Yearly',
     trial:'Free trial until {d}', active:'Active · renews {d}', ending:'Ends {d}', pastDue:'Payment problem',
-    manage:'Manage subscription', signout:'Sign out',
+    manage:'Manage subscription', signout:'Sign out', opening:'Opening…', portalErr:"We couldn't open it right now. Try again in a moment or write to {m}.",
     payH:"Your last payment didn't go through.", payP:'Update your card to keep access to your classes.', payA:'Update card',
     pwH:"Your membership isn't active", pwNone:"We couldn't find a membership for {e}.", pwEnded:'Your membership has ended. Come back any time: your progress is saved.',
     pwPlans:'See plans', pwOther:'Use another e-mail',
@@ -112,20 +112,19 @@ function subLine(){
   return px('active', { d:fmtDay(s.current_period_end) });
 }
 function accountCard(){
-  const s = ACC.sub || {}, pu = portalUrl();
+  const s = ACC.sub || {};
   return `<section class="card progcard acct">
     <div class="sechead"><span class="eyebrow">${px('acct')}</span><span style="color:var(--plum)">${I.logo}</span></div>
     <div class="row"><span>${px('email')}</span><span>${esc(ACC.user ? ACC.user.email : '')}</span></div>
     ${s.plan ? `<div class="row"><span>${px('plan')}</span><span>${px(s.plan === 'yearly' ? 'yearly' : 'monthly')}</span></div>` : ''}
     ${s.status ? `<div class="row"><span>${px('status')}</span><span>${subLine()}</span></div>` : ''}
-    ${pu ? `<a class="btn line" style="text-decoration:none" href="${esc(pu)}" target="_blank" rel="noopener">${px('manage')}</a>` : ''}
+    ${ACC.sub ? `<button type="button" class="btn line" data-act="portal">${px('manage')}</button>` : ''}
     <button type="button" class="link" data-act="signout" style="align-self:flex-start">${px('signout')}</button>
   </section>`;
 }
 function payBanner(){
   if (!ACC.sub || (ACC.sub.status !== 'past_due' && ACC.sub.status !== 'unpaid')) return '';
-  const pu = portalUrl();
-  return `<div class="banner" role="alert"><span>⚠</span><span><b>${px('payH')}</b> ${px('payP')} ${pu ? `<a href="${esc(pu)}" target="_blank" rel="noopener">${px('payA')}</a>` : ''}</span></div>`;
+  return `<div class="banner" role="alert"><span>⚠</span><span><b>${px('payH')}</b> ${px('payP')} <button type="button" data-act="portal" style="display:inline;min-height:0;border:none;background:none;padding:0;font:inherit;font-weight:600;color:var(--plum);text-decoration:underline;cursor:pointer">${px('payA')}</button></span></div>`;
 }
 function installSheet(){
   const ua = navigator.userAgent || '', ios = /iphone|ipad|ipod/i.test(ua) || (/macintosh/i.test(ua) && 'ontouchend' in document);
@@ -149,7 +148,7 @@ function vPaywall(){
     <h1 class="h1">${px('pwH')}</h1>
     <p class="sub">${s ? px('pwEnded') : px('pwNone', { e:esc(email) })}</p>
     <a class="btn" style="text-decoration:none" href="/#plans">${px('pwPlans')}</a>
-    ${s && portalUrl() ? `<a class="btn line" style="text-decoration:none" href="${esc(portalUrl())}" target="_blank" rel="noopener">${px('manage')}</a>` : ''}
+    ${s ? `<button type="button" class="btn line" data-act="portal">${px('manage')}</button>` : ''}
     <button type="button" class="link" data-act="signout">${px('pwOther')}</button>
   </div></div></div>`;
 }
@@ -177,12 +176,35 @@ setLang = function(l){
   baseSetLang(l); Aira.setLang(l); persist();
   if (ACC.sb) ACC.sb.auth.updateUser({ data:{ lang:l } }).then(() => {}, () => {});
 };
+// One tap into the Stripe portal (cancel, change plan, update card), already signed in.
+async function openPortal(el){
+  if (el.disabled) return;
+  const label = el.textContent; el.disabled = true; el.textContent = px('opening');
+  try {
+    const token = (await ACC.sb.auth.getSession()).data.session.access_token;
+    const r = await fetch('/api/portal-session', { method:'POST', headers:{ 'Content-Type':'application/json', Authorization:'Bearer ' + token }, body:JSON.stringify({ lang:S.lang }) });
+    const d = await r.json();
+    if (r.ok && d.url) { Aira.store.del('aira.sub'); location.href = d.url; return; }
+    throw new Error(d.error || r.status);
+  } catch (e) {
+    const pu = portalUrl();
+    if (pu) { location.href = pu; return; }
+    alertMsg(px('portalErr', { m:esc(ACC.cfg.supportEmail || 'airapilates.app@gmail.com') }));
+  }
+  el.disabled = false; el.textContent = label;
+}
+function alertMsg(html){
+  let t = document.getElementById('aira-toast');
+  if (!t) { t = document.createElement('div'); t.id = 'aira-toast'; t.setAttribute('role', 'status'); t.style.cssText = 'position:fixed;left:16px;right:16px;bottom:calc(24px + env(safe-area-inset-bottom));z-index:99;background:#231A2C;color:#fff;padding:14px 16px;border-radius:14px;font-size:14px;line-height:1.45;box-shadow:0 8px 30px rgba(0,0,0,.2)'; document.body.appendChild(t); }
+  t.innerHTML = html; t.hidden = false; clearTimeout(t._h); t._h = setTimeout(() => { t.hidden = true; }, 6000);
+}
 document.addEventListener('click', (e) => {
   const el = e.target.closest('[data-act]'); if (!el) return;
   const act = el.dataset.act;
   if (act === 'create') { S.onboarded = true; if (!ACC.standalone && !S.installSeen) S.showInstall = true; }
   if (act === 'inst-close' && (e.target === el || el.tagName === 'BUTTON')) { S.showInstall = false; S.installSeen = true; render(true); }
   if (act === 'inst-go' && ACC.promptEvt) { ACC.promptEvt.prompt(); ACC.promptEvt.userChoice.finally(() => { ACC.promptEvt = null; S.showInstall = false; S.installSeen = true; render(true); }); }
+  if (act === 'portal') { openPortal(el); return; }
   if (act === 'signout') { clearTimeout(saveTimer); pushRemote(); Aira.store.del('aira.sub'); ACC.sb.auth.signOut().finally(() => location.replace('/login')); }
 }, true);
 window.addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); ACC.promptEvt = e; });
