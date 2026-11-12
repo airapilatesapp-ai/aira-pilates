@@ -7,6 +7,7 @@ Site de vendas, app (PWA) e ligação com Stripe e Supabase. Sem pacotes externo
 | Pasta / arquivo | O que é |
 | --- | --- |
 | `public/index.html` | Página de vendas (inglês, com botão para português), quiz e planos |
+| `public/start.html` | Quiz direto (link do direct do Instagram): 3 perguntas → plano → teste grátis. Use `?src=nome-do-video` para saber de qual vídeo veio a venda |
 | `public/welcome.html` | Página que a cliente vê logo depois de pagar |
 | `public/login.html` | Entrar com o e-mail (recebe um link, sem senha) |
 | `public/app/` | O app em si. `index.html` é gerado pelo `scripts/build.mjs` |
