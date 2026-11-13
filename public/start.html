@@ -184,14 +184,14 @@ const T = {
       days:{ h:'How many days a week can you practice?', o:{ 2:['2 days','A gentle start'], 3:['3 days','Most popular'], 4:['4 days','Steady progress'], 5:['5+ days','All in'] } },
       time:{ h:'How much time do you have on those days?', o:{ 10:['10 minutes','Even the busiest days'], 15:['15 minutes'], 20:['20 minutes'], 30:['30 minutes'] } },
       obstacle:{ h:'What has gotten in the way before?', o:{ time:'Not enough time', motivation:'Staying motivated', start:'Not knowing where to start', pain:'Aches or past injuries', boring:'Getting bored' } },
-      name:{ h:'What should Nora call you?', s:'Nora is your AI Pilates coach. She guides every class by voice.', ph:'Your first name' },
+      name:{ h:'What\'s your first name?', s:'So we can make the plan yours.', ph:'Your first name' },
       email:{ h:'Where should we send your plan?', s:'Your plan is ready. We\'ll e-mail you a copy so you don\'t lose it.', ph:'you@example.com', btn:'Show my plan', bad:'Please type a valid e-mail.',
         consent:'We\'ll send your plan and up to 3 e-mails about it. Unsubscribe anytime. See our <a href="/privacy" target="_blank">Privacy Policy</a>.' }
     },
     i1h:'You\'re in the right place', i1p:'Pilates is low-impact and kind to your joints, and it builds deep strength at 20, 40, 60 and beyond.', i1f:'Your plan will focus on:',
     i2:{
-      time:['Short on time? Aira was built for that.','Every class takes 10 to 30 minutes at home, with no equipment. Nora counts and cues for you, so you just press play.'],
-      motivation:['Motivation follows momentum.','Nora guides every move out loud, and your streak and progress update after each class, so you can see yourself showing up.'],
+      time:['Short on time? Aira was built for that.','Every class takes 10 to 30 minutes at home, with no equipment. A voice guide counts and cues for you, so you just press play.'],
+      motivation:['Motivation follows momentum.','A voice guides every move out loud, and your streak and progress update after each class, so you can see yourself showing up.'],
       start:['You\'ll always know what to do.','Every move has an animation and voice cues for your breath and timing. Beginner classes start with the fundamentals.'],
       pain:['Let\'s start gently.','Your plan begins with slow, low-impact classes. Move in a comfortable range and skip anything that hurts. If you have an injury, check with your doctor first.'],
       boring:['No two weeks need to look the same.','Choose from {n} classes in {s} styles, from standing Pilates to cardio, stretching and core.']
@@ -203,7 +203,7 @@ const T = {
     rsub:'{m} minutes, {d} days a week. Made for your level.',
     dGoal:'Goal', dFocus:'Focus', dLevel:'Level', dTime:'Time', perDay:'{m} min, {d}× a week', daysP:'{d}+',
     week:'Your first week', day:'Day {n}', min:'min',
-    g1:'Classes picked for your goal, at your level', g2:'Nora counts, cues your breath and tells you when to switch', g3:'Moves get harder as you get stronger',
+    g1:'Classes picked for your goal, at your level', g2:'A voice guide that counts, cues your breath and tells you when to switch', g3:'Moves get harder as you get stronger',
     choose:'Choose how to continue',
     yN:'Yearly', yS:'Just $4.17 a month', yP:'$49.99', yU:'per year', save:'Save 58%',
     mN:'Monthly', mS:'Flexible, month to month', mP:'$9.99', mU:'per month',
@@ -214,7 +214,7 @@ const T = {
     tr1:'No charge today', tr2:'Cancel anytime', tr3:'Secure checkout by Stripe',
     faqH:'Questions', faq:[
       ['Do I need any equipment?','No. Just a mat or a soft floor. Every class is designed for home.'],
-      ['Who is Nora?','Nora is Aira\'s AI Pilates coach. She guides each class by voice: counting, cueing your breath and telling you when to switch.'],
+      ['Who is Nora?','Nora is Aira\'s AI Pilates coach on Instagram, where she shares tips and short routines. In the app, every class is guided by animations and voice cues.'],
       ['Is it OK for beginners?','Yes. Beginner classes start with the fundamentals and every move has an animation to follow.'],
       ['How do I cancel?','In the app, go to Progress, then Manage subscription. It takes two taps. Cancel during the 7 free days and you pay nothing.']
     ],
@@ -234,14 +234,14 @@ const T = {
       days:{ h:'Quantos dias por semana você consegue praticar?', o:{ 2:['2 dias','Um começo leve'], 3:['3 dias','O mais escolhido'], 4:['4 dias','Evolução constante'], 5:['5 ou mais','Com tudo'] } },
       time:{ h:'Quanto tempo você tem nesses dias?', o:{ 10:['10 minutos','Até nos dias mais corridos'], 15:['15 minutos'], 20:['20 minutos'], 30:['30 minutos'] } },
       obstacle:{ h:'O que te atrapalhou até hoje?', o:{ time:'Falta de tempo', motivation:'Manter a motivação', start:'Não saber por onde começar', pain:'Dores ou lesões antigas', boring:'Enjoar dos treinos' } },
-      name:{ h:'Como a Nora pode te chamar?', s:'A Nora é sua coach de Pilates com IA. Ela guia cada aula por voz.', ph:'Seu primeiro nome' },
+      name:{ h:'Qual é o seu primeiro nome?', s:'Para deixar o plano com a sua cara.', ph:'Seu primeiro nome' },
       email:{ h:'Para onde mandamos seu plano?', s:'Seu plano está pronto. Vamos te mandar uma cópia por e-mail para você não perder.', ph:'voce@exemplo.com', btn:'Ver meu plano', bad:'Digite um e-mail válido.',
         consent:'Vamos mandar seu plano e no máximo 3 e-mails sobre ele. Cancele quando quiser. Veja a <a href="/privacy" target="_blank">Política de Privacidade</a>.' }
     },
     i1h:'Você está no lugar certo', i1p:'O Pilates é de baixo impacto, gentil com as articulações e constrói força profunda aos 20, 40, 60 anos e depois.', i1f:'Seu plano vai focar em:',
     i2:{
-      time:['Pouco tempo? A Aira foi feita para isso.','Cada aula leva de 10 a 30 minutos, em casa, sem equipamento. A Nora conta e orienta por você: é só dar o play.'],
-      motivation:['A motivação vem com o ritmo.','A Nora guia cada movimento em voz alta, e sua sequência e seu progresso aparecem depois de cada aula, para você ver que está conseguindo.'],
+      time:['Pouco tempo? A Aira foi feita para isso.','Cada aula leva de 10 a 30 minutos, em casa, sem equipamento. Uma voz conta e orienta por você: é só dar o play.'],
+      motivation:['A motivação vem com o ritmo.','Uma voz guia cada movimento em voz alta, e sua sequência e seu progresso aparecem depois de cada aula, para você ver que está conseguindo.'],
       start:['Você sempre vai saber o que fazer.','Cada exercício tem animação e uma voz que orienta a respiração e o tempo. As aulas para iniciantes começam pelos fundamentos.'],
       pain:['Vamos começar com calma.','Seu plano começa com aulas lentas e de baixo impacto. Mova-se até onde for confortável e pule o que doer. Se você tem uma lesão, fale com seu médico antes.'],
       boring:['Nenhuma semana precisa ser igual.','São {n} aulas em {s} estilos, de Pilates em pé a cardio, alongamento e abdômen.']
@@ -253,7 +253,7 @@ const T = {
     rsub:'{m} minutos, {d} dias por semana. Feito para o seu nível.',
     dGoal:'Objetivo', dFocus:'Foco', dLevel:'Nível', dTime:'Tempo', perDay:'{m} min, {d}× por semana', daysP:'{d}+',
     week:'Sua primeira semana', day:'Dia {n}', min:'min',
-    g1:'Aulas escolhidas para o seu objetivo, no seu nível', g2:'A Nora conta, lembra a respiração e avisa quando trocar', g3:'Os exercícios evoluem conforme você fica mais forte',
+    g1:'Aulas escolhidas para o seu objetivo, no seu nível', g2:'Uma voz que conta, lembra a respiração e avisa quando trocar', g3:'Os exercícios evoluem conforme você fica mais forte',
     choose:'Escolha como continuar',
     yN:'Anual', yS:'Só US$&nbsp;4,17 por mês', yP:'US$&nbsp;49,99', yU:'por ano', save:'Economize 58%',
     mN:'Mensal', mS:'Flexível, mês a mês', mP:'US$&nbsp;9,99', mU:'por mês',
@@ -264,7 +264,7 @@ const T = {
     tr1:'Nada cobrado hoje', tr2:'Cancele quando quiser', tr3:'Pagamento seguro pela Stripe',
     faqH:'Dúvidas', faq:[
       ['Preciso de algum equipamento?','Não. Só um tapete ou um chão macio. Todas as aulas foram feitas para casa.'],
-      ['Quem é a Nora?','A Nora é a coach de Pilates com IA da Aira. Ela guia cada aula por voz: conta, lembra a respiração e avisa quando trocar.'],
+      ['Quem é a Nora?','A Nora é a coach de Pilates com IA da Aira no Instagram, onde compartilha dicas e rotinas curtas. No app, cada aula é guiada por animações e orientações por voz.'],
       ['Serve para iniciantes?','Sim. As aulas para iniciantes começam pelos fundamentos e cada exercício tem uma animação para você seguir.'],
       ['Como eu cancelo?','No app, vá em Progresso e depois em Gerenciar assinatura. São dois toques. Se cancelar nos 7 dias grátis, não paga nada.']
     ],
