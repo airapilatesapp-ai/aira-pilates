@@ -1,7 +1,7 @@
 // Stripe calls this address every time something happens with a payment or subscription.
 // It keeps the "subscribers" table in Supabase up to date and e-mails the access link after checkout.
 import { verifyStripeSignature, stripeGet, subscriptionRow } from '../lib/stripe.js';
-import { upsertSubscriber, updateByCustomer, ensureUser, sendAccessLink } from '../lib/supabase.js';
+import { upsertSubscriber, updateByCustomer, ensureUser, sendAccessLink, updateLead } from '../lib/supabase.js';
 
 const json = (status, data) => new Response(JSON.stringify(data), { status, headers: { 'Content-Type': 'application/json' } });
 const appUrl = () => (process.env.APP_URL || '').replace(/\/+$/, '');
@@ -33,6 +33,8 @@ export async function handleEvent(event) {
       await upsertSubscriber({ email, ...subscriptionRow(sub) });
       await ensureUser(email, lang);
       await sendAccessLink(email, appUrl() ? `${appUrl()}/app/` : undefined);
+      // Stop the quiz follow-up e-mails. Never fail the webhook because of this.
+      try { await updateLead(email, { converted_at: new Date().toISOString(), next_email_at: null }); } catch (err) { console.error('lead converted', err); }
       return { ok: 'access sent' };
     }
     case 'customer.subscription.created':

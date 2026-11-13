@@ -7,7 +7,12 @@ Site de vendas, app (PWA) e ligação com Stripe e Supabase. Sem pacotes externo
 | Pasta / arquivo | O que é |
 | --- | --- |
 | `public/index.html` | Página de vendas (inglês, com botão para português), quiz e planos |
-| `public/start.html` | Quiz direto (link do direct do Instagram): 3 perguntas → plano → teste grátis. Use `?src=nome-do-video` para saber de qual vídeo veio a venda |
+| `public/start.html` | Quiz do funil (link do direct do Instagram): 13 telas → e-mail → plano → teste grátis. Use `?src=nome-do-video` para saber de qual vídeo veio a venda |
+| `api/lead.js` | Guarda o e-mail e as respostas do quiz e manda o plano por e-mail |
+| `api/cron-leads.js` | Roda de hora em hora: manda os 2 e-mails de lembrete (24 h e 72 h) para quem não começou o teste |
+| `api/unsubscribe.js` | Link de "cancelar inscrição" dos e-mails do quiz |
+| `src/plan.js` | Monta a "primeira semana" do plano (usado no quiz e nos e-mails) |
+| `supabase/leads.sql` | Cria a tabela de contatos do quiz (cole no SQL Editor) |
 | `public/welcome.html` | Página que a cliente vê logo depois de pagar |
 | `public/login.html` | Entrar com o e-mail (recebe um link, sem senha) |
 | `public/app/` | O app em si. `index.html` é gerado pelo `scripts/build.mjs` |
@@ -34,11 +39,15 @@ Site de vendas, app (PWA) e ligação com Stripe e Supabase. Sem pacotes externo
 | `SUPABASE_SECRET_KEY` | Chave secreta (secret ou service_role) |
 | `APP_URL` | Endereço do site, ex.: `https://airapilates.app` |
 | `SUPPORT_EMAIL` | (opcional) e-mail de atendimento mostrado no rodapé |
+| `RESEND_API_KEY` | Chave da API do Resend (`re_…`) para os e-mails do quiz |
+| `CRON_SECRET` | Uma senha aleatória qualquer; a Vercel usa para chamar `api/cron-leads` |
+| `COMPANY_ADDRESS` | Endereço postal mostrado no rodapé dos e-mails do quiz (exigido pela lei americana CAN-SPAM) |
 
 ## Comandos
 
 - `node scripts/build.mjs`: gera o app a partir de `src/` (a Vercel roda sozinha a cada publicação).
 - `node scripts/test-webhook.mjs`: testa o webhook com uma Stripe e um Supabase de mentira.
+- `node scripts/test-leads.mjs`: testa os e-mails do quiz com um Supabase e um Resend de mentira.
 
 ## Eventos que o webhook precisa receber
 

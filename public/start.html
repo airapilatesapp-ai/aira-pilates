@@ -4,13 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Find your Pilates plan · Aira</title>
-<meta name="description" content="Answer 3 quick questions and get a Pilates plan made for your goal, level and time. Try 7 days free.">
+<meta name="description" content="Answer a few quick questions and get a Pilates plan made for your goal, level and schedule. Try 7 days free.">
 <meta name="theme-color" content="#F6F3F8">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Find your Pilates plan in 30 seconds">
-<meta property="og:description" content="3 quick questions. A plan for your goal, level and time. 7 days free.">
+<meta property="og:title" content="Find your Pilates plan in 1 minute">
+<meta property="og:description" content="A few quick questions. A plan for your goal, level and schedule. 7 days free.">
 <meta property="og:image" content="https://airapilates.app/assets/og.png">
 <meta property="og:url" content="https://airapilates.app/start">
 <meta name="twitter:card" content="summary_large_image">
@@ -18,36 +18,64 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600&family=Inter:wght@400;500;600&display=swap">
 <link rel="stylesheet" href="/assets/site.css">
+<script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
+<script defer src="/_vercel/insights/script.js"></script>
 <style>
 body{min-height:100vh;min-height:100dvh;display:flex;flex-direction:column}
 .bar{position:sticky;top:0;z-index:5;background:var(--bg);padding:12px 0 10px}
 .bar .wrap{display:flex;align-items:center;justify-content:space-between;gap:12px}
 .col{width:100%;max-width:520px;margin:0 auto;padding:0 16px}
-main{flex:1;padding:4px 0 40px}
-.prog{display:flex;align-items:center;gap:12px;margin:6px 0 22px;min-height:40px}
+main{flex:1;padding:4px 0 32px}
+.prog{display:flex;align-items:center;gap:10px;margin:4px 0 20px;min-height:40px}
+.prog[hidden]{display:none}
 .prog .track{flex:1;height:6px;border-radius:3px;background:var(--plum-soft);overflow:hidden}
 .prog .track i{display:block;height:100%;width:0;background:var(--plum);border-radius:3px;transition:width .35s ease}
-.prog .n{font-size:13px;font-weight:600;color:var(--muted);white-space:nowrap}
-.back{border:none;background:none;padding:0;width:40px;height:40px;margin-left:-8px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--plum-deep);cursor:pointer}
+.back{border:none;background:none;padding:0;width:40px;height:40px;margin-left:-8px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--plum-deep);cursor:pointer;flex-shrink:0}
 .back:hover{background:var(--plum-wash)}
-.back[hidden]{display:flex!important;visibility:hidden}
-.view{animation:in .32s ease both}
+.back.off{visibility:hidden}
+.view{animation:in .3s ease both}
 @keyframes in{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
 @media (prefers-reduced-motion: reduce){ .view{animation:none} .prog .track i{transition:none} }
 .kick{font-size:13px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--coral-ink);margin:0 0 8px}
-.q{font-family:var(--font-display);font-weight:600;font-size:clamp(27px,7.4vw,34px);line-height:1.15;letter-spacing:-.5px;color:var(--ink);margin:0 0 22px}
-.opts{display:flex;flex-direction:column;gap:12px}
-.opt{display:flex;align-items:center;gap:14px;width:100%;min-height:68px;padding:12px 18px;border-radius:20px;border:1.5px solid var(--line);background:#fff;text-align:left;font-size:17px;font-weight:500;cursor:pointer;transition:border-color .15s,background .15s,transform .1s}
+.q{font-family:var(--font-display);font-weight:600;font-size:clamp(26px,7vw,32px);line-height:1.15;letter-spacing:-.5px;color:var(--ink);margin:0 0 8px}
+.qs{font-size:15px;color:var(--muted);margin:0 0 20px}
+.opts{display:flex;flex-direction:column;gap:10px}
+.opt{position:relative;display:flex;align-items:center;gap:14px;width:100%;min-height:64px;padding:10px 16px;border-radius:20px;border:1.5px solid var(--line);background:#fff;text-align:left;font-size:17px;font-weight:500;color:var(--ink);cursor:pointer;transition:border-color .15s,background .15s,transform .1s}
 .opt:hover{border-color:var(--plum)}
 .opt:active{transform:scale(.99)}
-.opt.on{border-color:var(--plum);background:var(--plum-wash)}
-.opt .ic{flex-shrink:0;width:42px;height:42px;border-radius:13px;background:var(--plum-wash);display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-weight:600;font-size:15px;color:var(--plum-deep)}
-.opt .t{display:flex;flex-direction:column;line-height:1.3}
+.opt[aria-pressed="true"],.opt[aria-checked="true"]{border-color:var(--plum);background:var(--plum-wash)}
+.opt .ic{flex-shrink:0;width:44px;height:44px;border-radius:14px;background:var(--plum-wash);display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-weight:600;font-size:15px;color:var(--plum-deep)}
+.opt .th{flex-shrink:0;width:92px;height:46px;border-radius:12px;background:var(--plum-wash);overflow:hidden}
+.opt .th svg,.card .th svg{display:block;width:100%;height:100%}
+.opt .t{flex:1;display:flex;flex-direction:column;line-height:1.3}
 .opt .t small{font-size:13px;font-weight:400;color:var(--muted);margin-top:2px}
-.hint{font-size:14px;color:var(--muted);margin:18px 0 0;text-align:center}
+.opt .box{flex-shrink:0;width:24px;height:24px;border-radius:8px;border:2px solid #B9AEC4;display:flex;align-items:center;justify-content:center}
+.opt[aria-checked="true"] .box{background:var(--plum);border-color:var(--plum)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.card{position:relative;display:flex;flex-direction:column;gap:6px;padding:8px 8px 12px;border-radius:20px;border:1.5px solid var(--line);background:#fff;cursor:pointer;text-align:center;font-size:16px;font-weight:600;color:var(--ink)}
+.card .th{height:76px;border-radius:14px;background:var(--plum-wash);overflow:hidden}
+.card[aria-checked="true"]{border-color:var(--plum);background:var(--plum-wash)}
+.card[aria-checked="true"] .th{background:#fff}
+.card .box{position:absolute;top:12px;right:12px;width:22px;height:22px;border-radius:7px;border:2px solid #B9AEC4;background:#fff;display:flex;align-items:center;justify-content:center}
+.card[aria-checked="true"] .box{background:var(--plum);border-color:var(--plum)}
+.next{margin-top:20px}
+.skip{display:block;margin:10px auto 0;border:none;background:none;color:var(--muted);font-size:15px;text-decoration:underline;cursor:pointer;padding:8px}
+.hint{font-size:14px;color:var(--muted);margin:16px 0 0;text-align:center}
+.field-big{width:100%;font-size:19px;padding:16px 18px;border-radius:16px;border:1.5px solid var(--line);background:#fff;color:var(--ink);font-family:inherit}
+.field-big:focus{outline:none;border-color:var(--plum);box-shadow:0 0 0 4px var(--plum-soft)}
+.err{color:#B3261E;font-size:14px;margin:8px 2px 0}
+.consent{font-size:13px;color:var(--muted);margin:12px 2px 0;line-height:1.5}
+.consent a{color:inherit}
+/* Interstitials */
+.info{display:flex;flex-direction:column;align-items:center;text-align:center;gap:14px;padding-top:6px}
+.info .fig{width:min(180px,46vw);height:min(180px,46vw)}
+.info .q{margin:6px 0 0}
+.info p{font-size:17px;color:var(--muted);margin:0;max-width:420px}
+.pills{display:flex;flex-wrap:wrap;justify-content:center;gap:8px}
+.pills span{background:var(--plum-soft);color:var(--plum-deep);border-radius:999px;padding:6px 14px;font-size:14px;font-weight:600}
 /* Loading */
-.load{display:flex;flex-direction:column;align-items:center;text-align:center;gap:22px;padding-top:18px}
-.load svg{width:200px;height:200px}
+.load{display:flex;flex-direction:column;align-items:center;text-align:center;gap:22px;padding-top:12px}
+.load .fig{width:200px;height:200px}
 .checks{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:12px;align-items:flex-start}
 .checks li{display:flex;gap:10px;align-items:center;font-size:16px;color:var(--muted);opacity:.35;transition:opacity .3s,color .3s}
 .checks li.on{opacity:1;color:var(--ink)}
@@ -55,18 +83,25 @@ main{flex:1;padding:4px 0 40px}
 .checks li.on .ck{background:var(--plum)}
 /* Result */
 .ready{display:flex;flex-direction:column;gap:18px}
-.ready h1{font-size:clamp(28px,7.6vw,36px);letter-spacing:-.5px}
+.ready h1{font-size:clamp(27px,7.4vw,34px);letter-spacing:-.5px;margin:0}
 .plancard{background:var(--plum);color:#fff;border-radius:26px;padding:20px;display:grid;grid-template-columns:92px 1fr;gap:16px;align-items:center}
-.plancard svg{width:92px;height:92px;border-radius:22px}
-.plancard dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:6px 12px;font-size:15px}
+.plancard .fig{width:92px;height:92px}
+.plancard dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:5px 12px;font-size:15px}
 .plancard dt{color:#D9CCE8}
 .plancard dd{margin:0;font-weight:600}
+.week{display:flex;flex-direction:column;gap:8px}
+.day{display:grid;grid-template-columns:84px 1fr auto;gap:12px;align-items:center;background:#fff;border-radius:18px;padding:8px 14px 8px 8px}
+.day .th{height:44px;border-radius:12px;background:var(--plum-wash);overflow:hidden}
+.day .th svg{display:block;width:100%;height:100%}
+.day b{display:block;font-size:15px;line-height:1.3}
+.day small{font-size:13px;color:var(--muted)}
+.day .mn{font-size:13px;font-weight:600;color:var(--plum-deep);white-space:nowrap}
 .gets{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
 .gets li{display:flex;gap:10px;align-items:flex-start;font-size:16px}
 .gets svg{flex-shrink:0;margin-top:3px}
 .h2s{font-family:var(--font-display);font-size:22px;font-weight:600;margin:8px 0 0}
 .pick{display:flex;flex-direction:column;gap:12px}
-.pl{position:relative;display:flex;align-items:center;gap:14px;width:100%;padding:18px;border-radius:20px;border:1.5px solid var(--line);background:#fff;text-align:left;cursor:pointer}
+.pl{position:relative;display:flex;align-items:center;gap:14px;width:100%;padding:18px;border-radius:20px;border:1.5px solid var(--line);background:#fff;text-align:left;cursor:pointer;color:var(--ink)}
 .pl.on{border:3px solid var(--plum);padding:16.5px}
 .pl .rd{flex-shrink:0;width:24px;height:24px;border-radius:50%;border:2px solid #B9AEC4;display:flex;align-items:center;justify-content:center}
 .pl.on .rd{border-color:var(--plum)}
@@ -78,7 +113,7 @@ main{flex:1;padding:4px 0 40px}
 .pl .pr b{font-family:var(--font-display);font-size:20px;color:var(--plum-deep)}
 .pl .pr small{font-size:12px;color:var(--muted)}
 .pl .tag{position:absolute;top:-11px;right:16px;background:var(--coral);color:#fff;border-radius:999px;padding:3px 11px;font-size:12px;font-weight:600}
-.tl{list-style:none;margin:6px 0 0;padding:18px 18px 18px 22px;background:#fff;border-radius:20px;display:flex;flex-direction:column;gap:0}
+.tl{list-style:none;margin:0;padding:18px 18px 18px 22px;background:#fff;border-radius:20px;display:flex;flex-direction:column}
 .tl li{position:relative;padding:0 0 16px 28px;font-size:15px;line-height:1.4}
 .tl li:last-child{padding-bottom:0}
 .tl li::before{content:'';position:absolute;left:0;top:3px;width:14px;height:14px;border-radius:50%;background:var(--plum)}
@@ -86,10 +121,17 @@ main{flex:1;padding:4px 0 40px}
 .tl li:last-child::before{background:var(--coral)}
 .tl b{display:block}
 .tl span{color:var(--muted)}
-.cta{padding:4px 0 0;display:flex;flex-direction:column;gap:8px}
+.cta{display:flex;flex-direction:column;gap:8px}
 .cta .fine{font-size:13px;color:var(--muted);text-align:center;margin:0}
 .trust{display:flex;flex-wrap:wrap;justify-content:center;gap:6px 16px;font-size:13px;color:var(--muted)}
 .trust span{display:flex;gap:6px;align-items:center}
+.faq{display:flex;flex-direction:column;gap:8px}
+.faq details{background:#fff;border-radius:16px;padding:14px 16px}
+.faq summary{font-weight:600;cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:12px}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:'+';color:var(--plum);font-size:20px;line-height:1}
+.faq details[open] summary::after{content:'–'}
+.faq p{margin:8px 0 0;color:var(--muted);font-size:15px}
 .again{border:none;background:none;color:var(--plum);font-weight:600;text-decoration:underline;cursor:pointer;padding:6px 0;align-self:center;font-size:14px}
 .mini{font-size:12px;color:var(--muted-2);text-align:center;padding:0 16px 22px}
 .mini a{color:inherit}
@@ -108,11 +150,10 @@ main{flex:1;padding:4px 0 40px}
 <main>
   <div class="col">
     <div class="prog" id="prog">
-      <button type="button" class="back" id="back" aria-label="Back" data-i18n-attr="aria-label:back" hidden>
+      <button type="button" class="back off" id="back" aria-label="Back">
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>
       </button>
       <div class="track" aria-hidden="true"><i id="bar"></i></div>
-      <span class="n" id="count"></span>
     </div>
     <div id="view" aria-live="polite"></div>
   </div>
@@ -121,26 +162,48 @@ main{flex:1;padding:4px 0 40px}
 
 <script src="/assets/aira.js"></script>
 <script src="/assets/figure.js"></script>
+<script src="/assets/classes.js"></script>
 <script>
 (function(){
 'use strict';
+const P = window.AiraPlan, F = window.AiraFig;
+const NCLASS = Object.keys(P.CLASSES).length, NSTYLE = new Set(Object.values(P.CLASSES).map((c) => c.mod)).size;
+
+/* ---------- Text ---------- */
 const T = {
   en: {
     __title:'Find your Pilates plan · Aira', back:'Back', terms:'Terms', privacy:'Privacy', login:'Already a member? Log in',
-    count:'{n} of 3', kick:'30-second quiz',
-    q:[
-      { h:'What do you want most from Pilates?', o:[['core','A stronger, flatter core'],['postura','Better posture, less back pain'],['gluteos','Toned glutes and legs'],['flex','More flexibility and calm']] },
-      { h:'How much Pilates have you done?', o:[['1','None, or it’s been a while','Beginner'],['2','I know the basic moves','Intermediate'],['3','I practice regularly','Advanced']] },
-      { h:'How much time do you have on most days?', o:[['10','10 minutes','Even the busiest days'],['15','15 minutes','Most popular'],['20','20 minutes'],['30','30 minutes']] }
-    ],
-    hint:'No equipment needed. Just a mat.',
-    load:'Building your plan…', l1:'Matching your level', l2:'Picking your classes', l3:'Setting your pace',
+    kick:'1-minute quiz', next:'Continue', skip:'Skip', pickMany:'Choose all that apply.',
+    q: {
+      goal:{ h:'What do you want most from Pilates?', o:{ core:'A stronger, flatter core', gluteos:'Toned glutes and legs', postura:'Better posture, less back pain', flex:'More flexibility and calm', corpo:'Whole-body strength' } },
+      age:{ h:'How old are you?', s:'So we can pace your plan.', o:{ '18-29':'18–29', '30-39':'30–39', '40-49':'40–49', '50+':'50+' } },
+      areas:{ h:'Which areas do you want to focus on?', o:{ belly:'Belly', glutes:'Glutes', legs:'Legs', arms:'Arms', back:'Back & posture', whole:'Whole body' } },
+      feel:{ h:'How do you want to feel?', o:{ strong:'Stronger', energy:'Lighter, with more energy', painfree:'Free of aches', confident:'More confident in my body', calm:'Calmer, less stressed' } },
+      pains:{ h:'Any areas that need extra care?', s:'We\'ll start gently. This answer stays on your phone.', o:{ back:'Lower back', neck:'Neck & shoulders', knees:'Knees', hips:'Hips', none:'None, I feel good' } },
+      level:{ h:'How much Pilates have you done?', o:{ 1:['None, or it\'s been a while','Beginner'], 2:['I know the basic moves','Intermediate'], 3:['I practice regularly','Advanced'] } },
+      days:{ h:'How many days a week can you practice?', o:{ 2:['2 days','A gentle start'], 3:['3 days','Most popular'], 4:['4 days','Steady progress'], 5:['5+ days','All in'] } },
+      time:{ h:'How much time do you have on those days?', o:{ 10:['10 minutes','Even the busiest days'], 15:['15 minutes'], 20:['20 minutes'], 30:['30 minutes'] } },
+      obstacle:{ h:'What has gotten in the way before?', o:{ time:'Not enough time', motivation:'Staying motivated', start:'Not knowing where to start', pain:'Aches or past injuries', boring:'Getting bored' } },
+      name:{ h:'What should Nora call you?', s:'Nora is your AI Pilates coach. She guides every class by voice.', ph:'Your first name' },
+      email:{ h:'Where should we send your plan?', s:'Your plan is ready. We\'ll e-mail you a copy so you don\'t lose it.', ph:'you@example.com', btn:'Show my plan', bad:'Please type a valid e-mail.',
+        consent:'We\'ll send your plan and up to 3 e-mails about it. Unsubscribe anytime. See our <a href="/privacy" target="_blank">Privacy Policy</a>.' }
+    },
+    i1h:'You\'re in the right place', i1p:'Pilates is low-impact and kind to your joints, and it builds deep strength at 20, 40, 60 and beyond.', i1f:'Your plan will focus on:',
+    i2:{
+      time:['Short on time? Aira was built for that.','Every class takes 10 to 30 minutes at home, with no equipment. Nora counts and cues for you, so you just press play.'],
+      motivation:['Motivation follows momentum.','Nora guides every move out loud, and your streak and progress update after each class, so you can see yourself showing up.'],
+      start:['You\'ll always know what to do.','Every move has an animation and voice cues for your breath and timing. Beginner classes start with the fundamentals.'],
+      pain:['Let\'s start gently.','Your plan begins with slow, low-impact classes. Move in a comfortable range and skip anything that hurts. If you have an injury, check with your doctor first.'],
+      boring:['No two weeks need to look the same.','Choose from {n} classes in {s} styles, from standing Pilates to cardio, stretching and core.']
+    },
+    load:'Building your plan…', l1:'Matching your level', l2:'Picking your classes', l3:'Setting your pace', l4:'Fitting it to your week',
     lv:{1:'Beginner',2:'Intermediate',3:'Advanced'},
-    goal:{core:'Core',postura:'Posture',gluteos:'Glutes & legs',flex:'Flexibility'},
-    focus:{core:'core strength',postura:'posture and a happier back',gluteos:'glutes and legs',flex:'flexibility and calm'},
-    rk:'Your plan is ready', rh:'Pilates for your {f}, in {m} minutes a day.',
-    dGoal:'Goal', dLevel:'Level', dTime:'Time', perDay:'{m} min / day',
-    g1:'Classes chosen for your goal, at your level', g2:'A voice coach that counts, cues your breath and tells you when to switch', g3:'Moves get harder as you get stronger',
+    focus:{core:'a stronger core',postura:'better posture',gluteos:'toned glutes and legs',flex:'flexibility and calm',corpo:'whole-body strength'},
+    rk:'Your plan is ready', rhN:'{name}, here\'s your plan for {f}.', rh:'Your plan for {f}.',
+    rsub:'{m} minutes, {d} days a week. Made for your level.',
+    dGoal:'Goal', dFocus:'Focus', dLevel:'Level', dTime:'Time', perDay:'{m} min, {d}× a week', daysP:'{d}+',
+    week:'Your first week', day:'Day {n}', min:'min',
+    g1:'Classes picked for your goal, at your level', g2:'Nora counts, cues your breath and tells you when to switch', g3:'Moves get harder as you get stronger',
     choose:'Choose how to continue',
     yN:'Yearly', yS:'Just $4.17 a month', yP:'$49.99', yU:'per year', save:'Save 58%',
     mN:'Monthly', mS:'Flexible, month to month', mP:'$9.99', mU:'per month',
@@ -149,24 +212,48 @@ const T = {
     t3h:'In 7 days', t3p:'Your plan starts: {p}. Cancel anytime.',
     cta:'Start my 7 free days', fineY:'7 days free, then $49.99/year.', fineM:'7 days free, then $9.99/month.',
     tr1:'No charge today', tr2:'Cancel anytime', tr3:'Secure checkout by Stripe',
+    faqH:'Questions', faq:[
+      ['Do I need any equipment?','No. Just a mat or a soft floor. Every class is designed for home.'],
+      ['Who is Nora?','Nora is Aira\'s AI Pilates coach. She guides each class by voice: counting, cueing your breath and telling you when to switch.'],
+      ['Is it OK for beginners?','Yes. Beginner classes start with the fundamentals and every move has an animation to follow.'],
+      ['How do I cancel?','In the app, go to Progress, then Manage subscription. It takes two taps. Cancel during the 7 free days and you pay nothing.']
+    ],
+    member:'You already have an Aira membership with this e-mail.', memberBtn:'Log in to the app',
     again:'Retake the quiz', soon:'Sign-ups open very soon.'
   },
   pt: {
     __title:'Descubra seu plano de Pilates · Aira', back:'Voltar', terms:'Termos', privacy:'Privacidade', login:'Já é assinante? Entrar',
-    count:'{n} de 3', kick:'Quiz de 30 segundos',
-    q:[
-      { h:'O que você mais quer com o Pilates?', o:[['core','Um abdômen mais forte e definido'],['postura','Postura melhor e menos dor nas costas'],['gluteos','Glúteos e pernas tonificados'],['flex','Mais flexibilidade e calma']] },
-      { h:'Quanto Pilates você já fez?', o:[['1','Nunca, ou faz tempo','Iniciante'],['2','Conheço os exercícios básicos','Intermediária'],['3','Pratico com frequência','Avançada']] },
-      { h:'Quanto tempo você tem na maioria dos dias?', o:[['10','10 minutos','Até nos dias mais corridos'],['15','15 minutos','O mais escolhido'],['20','20 minutos'],['30','30 minutos']] }
-    ],
-    hint:'Não precisa de equipamento. Só um tapete.',
-    load:'Montando seu plano…', l1:'Ajustando ao seu nível', l2:'Escolhendo suas aulas', l3:'Definindo seu ritmo',
+    kick:'Quiz de 1 minuto', next:'Continuar', skip:'Pular', pickMany:'Escolha quantas quiser.',
+    q: {
+      goal:{ h:'O que você mais quer com o Pilates?', o:{ core:'Um abdômen mais forte e definido', gluteos:'Glúteos e pernas tonificados', postura:'Postura melhor, menos dor nas costas', flex:'Mais flexibilidade e calma', corpo:'Força no corpo todo' } },
+      age:{ h:'Qual é a sua idade?', s:'Para ajustar o ritmo do seu plano.', o:{ '18-29':'18–29', '30-39':'30–39', '40-49':'40–49', '50+':'50+' } },
+      areas:{ h:'Quais áreas você quer trabalhar?', o:{ belly:'Barriga', glutes:'Glúteos', legs:'Pernas', arms:'Braços', back:'Costas e postura', whole:'Corpo todo' } },
+      feel:{ h:'Como você quer se sentir?', o:{ strong:'Mais forte', energy:'Mais leve e com energia', painfree:'Sem dores', confident:'Mais confiante no meu corpo', calm:'Mais calma, menos estressada' } },
+      pains:{ h:'Alguma área precisa de cuidado extra?', s:'Vamos começar com calma. Esta resposta fica só no seu celular.', o:{ back:'Lombar', neck:'Pescoço e ombros', knees:'Joelhos', hips:'Quadril', none:'Nenhuma, estou bem' } },
+      level:{ h:'Quanto Pilates você já fez?', o:{ 1:['Nunca, ou faz tempo','Iniciante'], 2:['Conheço os exercícios básicos','Intermediária'], 3:['Pratico com frequência','Avançada'] } },
+      days:{ h:'Quantos dias por semana você consegue praticar?', o:{ 2:['2 dias','Um começo leve'], 3:['3 dias','O mais escolhido'], 4:['4 dias','Evolução constante'], 5:['5 ou mais','Com tudo'] } },
+      time:{ h:'Quanto tempo você tem nesses dias?', o:{ 10:['10 minutos','Até nos dias mais corridos'], 15:['15 minutos'], 20:['20 minutos'], 30:['30 minutos'] } },
+      obstacle:{ h:'O que te atrapalhou até hoje?', o:{ time:'Falta de tempo', motivation:'Manter a motivação', start:'Não saber por onde começar', pain:'Dores ou lesões antigas', boring:'Enjoar dos treinos' } },
+      name:{ h:'Como a Nora pode te chamar?', s:'A Nora é sua coach de Pilates com IA. Ela guia cada aula por voz.', ph:'Seu primeiro nome' },
+      email:{ h:'Para onde mandamos seu plano?', s:'Seu plano está pronto. Vamos te mandar uma cópia por e-mail para você não perder.', ph:'voce@exemplo.com', btn:'Ver meu plano', bad:'Digite um e-mail válido.',
+        consent:'Vamos mandar seu plano e no máximo 3 e-mails sobre ele. Cancele quando quiser. Veja a <a href="/privacy" target="_blank">Política de Privacidade</a>.' }
+    },
+    i1h:'Você está no lugar certo', i1p:'O Pilates é de baixo impacto, gentil com as articulações e constrói força profunda aos 20, 40, 60 anos e depois.', i1f:'Seu plano vai focar em:',
+    i2:{
+      time:['Pouco tempo? A Aira foi feita para isso.','Cada aula leva de 10 a 30 minutos, em casa, sem equipamento. A Nora conta e orienta por você: é só dar o play.'],
+      motivation:['A motivação vem com o ritmo.','A Nora guia cada movimento em voz alta, e sua sequência e seu progresso aparecem depois de cada aula, para você ver que está conseguindo.'],
+      start:['Você sempre vai saber o que fazer.','Cada exercício tem animação e uma voz que orienta a respiração e o tempo. As aulas para iniciantes começam pelos fundamentos.'],
+      pain:['Vamos começar com calma.','Seu plano começa com aulas lentas e de baixo impacto. Mova-se até onde for confortável e pule o que doer. Se você tem uma lesão, fale com seu médico antes.'],
+      boring:['Nenhuma semana precisa ser igual.','São {n} aulas em {s} estilos, de Pilates em pé a cardio, alongamento e abdômen.']
+    },
+    load:'Montando seu plano…', l1:'Ajustando ao seu nível', l2:'Escolhendo suas aulas', l3:'Definindo seu ritmo', l4:'Encaixando na sua semana',
     lv:{1:'Iniciante',2:'Intermediária',3:'Avançada'},
-    goal:{core:'Abdômen',postura:'Postura',gluteos:'Glúteos e pernas',flex:'Flexibilidade'},
-    focus:{core:'abdômen',postura:'postura e costas',gluteos:'glúteos e pernas',flex:'flexibilidade e calma'},
-    rk:'Seu plano está pronto', rh:'Pilates para {f}, em {m} minutos por dia.',
-    dGoal:'Objetivo', dLevel:'Nível', dTime:'Tempo', perDay:'{m} min / dia',
-    g1:'Aulas escolhidas para o seu objetivo, no seu nível', g2:'Uma voz que conta, lembra a respiração e avisa quando trocar', g3:'Os exercícios evoluem conforme você fica mais forte',
+    focus:{core:'um abdômen mais forte',postura:'uma postura melhor',gluteos:'glúteos e pernas firmes',flex:'flexibilidade e calma',corpo:'força no corpo todo'},
+    rk:'Seu plano está pronto', rhN:'{name}, aqui está seu plano para {f}.', rh:'Seu plano para {f}.',
+    rsub:'{m} minutos, {d} dias por semana. Feito para o seu nível.',
+    dGoal:'Objetivo', dFocus:'Foco', dLevel:'Nível', dTime:'Tempo', perDay:'{m} min, {d}× por semana', daysP:'{d}+',
+    week:'Sua primeira semana', day:'Dia {n}', min:'min',
+    g1:'Aulas escolhidas para o seu objetivo, no seu nível', g2:'A Nora conta, lembra a respiração e avisa quando trocar', g3:'Os exercícios evoluem conforme você fica mais forte',
     choose:'Escolha como continuar',
     yN:'Anual', yS:'Só US$&nbsp;4,17 por mês', yP:'US$&nbsp;49,99', yU:'por ano', save:'Economize 58%',
     mN:'Mensal', mS:'Flexível, mês a mês', mP:'US$&nbsp;9,99', mU:'por mês',
@@ -175,78 +262,154 @@ const T = {
     t3h:'Daqui a 7 dias', t3p:'Seu plano começa: {p}. Cancele quando quiser.',
     cta:'Começar meus 7 dias grátis', fineY:'7 dias grátis, depois US$&nbsp;49,99 por ano.', fineM:'7 dias grátis, depois US$&nbsp;9,99 por mês.',
     tr1:'Nada cobrado hoje', tr2:'Cancele quando quiser', tr3:'Pagamento seguro pela Stripe',
+    faqH:'Dúvidas', faq:[
+      ['Preciso de algum equipamento?','Não. Só um tapete ou um chão macio. Todas as aulas foram feitas para casa.'],
+      ['Quem é a Nora?','A Nora é a coach de Pilates com IA da Aira. Ela guia cada aula por voz: conta, lembra a respiração e avisa quando trocar.'],
+      ['Serve para iniciantes?','Sim. As aulas para iniciantes começam pelos fundamentos e cada exercício tem uma animação para você seguir.'],
+      ['Como eu cancelo?','No app, vá em Progresso e depois em Gerenciar assinatura. São dois toques. Se cancelar nos 7 dias grátis, não paga nada.']
+    ],
+    member:'Você já tem uma assinatura da Aira com este e-mail.', memberBtn:'Entrar no app',
     again:'Refazer o quiz', soon:'As inscrições abrem em breve.'
   }
 };
-const KEYS = ['goal','level','time'];
-const POSE = { core:'hundred', postura:'swan', gluteos:'bridge', flex:'mermaid' };
-const view = document.getElementById('view'), bar = document.getElementById('bar'), count = document.getElementById('count'), back = document.getElementById('back'), prog = document.getElementById('prog');
-const fill = (s, v) => s.replace(/\{(\w+)\}/g, (_, k) => v[k]);
+
+/* ---------- Quiz screens ---------- */
+const STEPS = [
+  { k:'goal', type:'one', thumbs:{ core:'hundred', gluteos:'bridge', postura:'swan', flex:'mermaid', corpo:'squat' }, order:['core','gluteos','postura','flex','corpo'] },
+  { k:'age', type:'one', order:['18-29','30-39','40-49','50+'] },
+  { k:'areas', type:'grid', thumbs:{ belly:'hundred', glutes:'bridge', legs:'lunge', arms:'plank', back:'swimming', whole:'jacks' }, order:['belly','glutes','legs','arms','back','whole'] },
+  { k:'i1', type:'info' },
+  { k:'feel', type:'many', order:['strong','energy','painfree','confident','calm'] },
+  { k:'pains', type:'many', order:['back','neck','knees','hips','none'], only:'none' },
+  { k:'level', type:'one', order:[1,2,3] },
+  { k:'days', type:'one', order:[2,3,4,5] },
+  { k:'time', type:'one', order:[10,15,20,30] },
+  { k:'obstacle', type:'one', order:['time','motivation','start','pain','boring'] },
+  { k:'i2', type:'info' },
+  { k:'name', type:'text' },
+  { k:'email', type:'email' }
+];
+const LOADING = STEPS.length, RESULT = STEPS.length + 1;
+const POSE = { core:'hundred', postura:'swan', gluteos:'bridge', flex:'mermaid', corpo:'squat' };
+
+const view = document.getElementById('view'), bar = document.getElementById('bar'), back = document.getElementById('back'), prog = document.getElementById('prog');
+const fill = (s, v) => String(s).replace(/\{(\w+)\}/g, (_, k) => v[k] == null ? '' : v[k]);
+const cap = (s) => s.charAt(0).toUpperCase() + s.slice(1);
+const esc = (s) => String(s == null ? '' : s).replace(/[&<>"]/g, (c) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const check = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5B3F7A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg>';
 const tick = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg>';
 const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-const F = window.AiraFig;
+const track = (name, data) => { try { window.va('event', data ? { name, data } : { name }); } catch (e) {} };
 
-let D = T.en, step = 0, ans = {}, plan = 'yearly', links = {}, anim = 0, loadTimer = 0;
-try { const s = JSON.parse(Aira.store.get('aira.quiz') || 'null'); if (s && s.goal && s.level && s.time) { ans = s; step = 4; } } catch (e) {}
-
+let D = T.en, lang = 'en', step = 0, ans = {}, plan = 'yearly', links = {}, anim = 0, loadTimer = 0, token = '', member = false, seen = {};
+const qs = new URLSearchParams(location.search);
 // Where the visitor came from, e.g. /start?src=reel12 → shows up in Stripe as "start_reel12".
-const src = (new URLSearchParams(location.search).get('src') || 'direct').replace(/[^a-zA-Z0-9_-]/g, '').slice(0, 40) || 'direct';
+const src = (qs.get('src') || 'direct').replace(/[^a-zA-Z0-9_-]/g, '').slice(0, 40) || 'direct';
+try { const s = JSON.parse(Aira.store.get('aira.quiz') || 'null'); if (s && s.goal && s.level && s.time && s.email) { ans = s; step = RESULT; } } catch (e) {}
 
-/* ---------- Animated figure (same one as the app) ---------- */
-function scene(id, size){
-  const small = size < 120, vb = small ? '60 60 200 200' : '0 0 320 320';
-  const clip = small ? '<rect x="60" y="60" width="200" height="200" rx="46"/>' : '<circle cx="160" cy="160" r="160"/>';
-  return `<svg viewBox="${vb}" width="${size}" height="${size}" aria-hidden="true"><defs><clipPath id="c${id}">${clip}</clipPath></defs>
-    <g clip-path="url(#c${id})"><rect width="320" height="320" fill="${small ? '#6A4C8B' : 'var(--scene)'}"/><circle cx="160" cy="130" r="64" fill="var(--scene-glow)"/><rect y="205" width="320" height="28" fill="var(--scene-mat)"/><g class="fig"></g></g></svg>`;
+/* ---------- Figures ---------- */
+const MAT_L = '<rect x="-40" y="192" width="400" height="40" fill="#DCCFEA"/>';
+function thumb(exId){
+  const e = F && F.EX[exId]; if (!e) return '';
+  return `<svg viewBox="${e.thumb || '10 70 300 132'}" preserveAspectRatio="xMidYMid meet" aria-hidden="true">${MAT_L}${F.figure(e.B)}</svg>`;
+}
+function scene(id, cls){
+  return `<svg class="${cls || 'fig'}" viewBox="0 0 320 320" aria-hidden="true"><defs><clipPath id="c${id}"><circle cx="160" cy="160" r="160"/></clipPath></defs>
+    <g clip-path="url(#c${id})"><rect width="320" height="320" fill="var(--scene)"/><circle cx="160" cy="130" r="64" fill="var(--scene-glow)"/><rect y="205" width="320" height="28" fill="var(--scene-mat)"/><g class="pose"></g></g></svg>`;
 }
 function animate(root, exId){
   cancelAnimationFrame(anim);
-  if (!F || !F.EX[exId]) return;
-  const g = root.querySelector('.fig'), e = F.EX[exId], t0 = performance.now();
+  if (!F || !F.EX[exId] || !root) return;
+  const g = root.querySelector('.pose'), e = F.EX[exId], t0 = performance.now();
   const paint = (p) => { const sc = p.k || 1.2; g.setAttribute('transform', `translate(${(160 - 160 * sc).toFixed(1)} ${(205 - 192 * sc).toFixed(1)}) scale(${sc.toFixed(3)})`); g.innerHTML = F.figure(p); };
   if (reduce) { paint(e.B); return; }
   const per = e.period * 1000;
-  const frame = (now) => { const ph = ((now - t0) % per) / per; paint(F.mix(e.A, e.B, ph < .5 ? F.ease(ph * 2) : F.ease(1 - (ph - .5) * 2), false)); anim = requestAnimationFrame(frame); };
+  const frame = (now) => { if (!g.isConnected) return; const ph = ((now - t0) % per) / per; paint(F.mix(e.A, e.B, ph < .5 ? F.ease(ph * 2) : F.ease(1 - (ph - .5) * 2), false)); anim = requestAnimationFrame(frame); };
   anim = requestAnimationFrame(frame);
 }
 
-/* ---------- Screens ---------- */
+/* ---------- Drawing ---------- */
 function draw(){
   clearTimeout(loadTimer); cancelAnimationFrame(anim);
-  prog.hidden = step > 3;
-  back.hidden = step === 0;
-  if (step <= 3) { bar.style.width = (Math.min(step, 3) / 3 * 100) + '%'; count.textContent = step < 3 ? fill(D.count, { n:step + 1 }) : ''; }
-  if (step < 3) drawQuestion();
-  else if (step === 3) drawLoading();
+  prog.hidden = step >= LOADING;
+  back.classList.toggle('off', step === 0 || step >= LOADING);
+  if (step < LOADING) bar.style.width = ((step + 1) / STEPS.length * 100).toFixed(1) + '%';
+  if (step < LOADING) { drawStep(STEPS[step]); const id = String(step + 1).padStart(2, '0') + '_' + STEPS[step].k; if (!seen[id]) { seen[id] = 1; track('quiz_step', { step:id, src }); } }
+  else if (step === LOADING) drawLoading();
   else drawResult();
 }
-function drawQuestion(){
-  const q = D.q[step], k = KEYS[step];
-  view.innerHTML = `<div class="view">${step === 0 ? `<p class="kick">${D.kick}</p>` : ''}<h1 class="q">${q.h}</h1>
-    <div class="opts">${q.o.map((o, i) => `<button type="button" class="opt${String(ans[k]) === o[0] ? ' on' : ''}" data-v="${o[0]}">
-      <span class="ic">${k === 'time' ? o[0] : k === 'level' ? o[0] : '0' + (i + 1)}</span>
-      <span class="t">${o[1]}${o[2] ? `<small>${o[2]}</small>` : ''}</span></button>`).join('')}</div>
-    ${step === 0 ? `<p class="hint">${D.hint}</p>` : ''}</div>`;
+const sel = (k, v) => Array.isArray(ans[k]) ? ans[k].indexOf(v) !== -1 : String(ans[k]) === String(v);
+function drawStep(S){
+  const Q = D.q[S.k] || {};
+  let h = `<div class="view">${step === 0 ? `<p class="kick">${D.kick}</p>` : ''}`;
+  if (S.type === 'info') { view.innerHTML = h + drawInfo(S.k) + '</div>'; animate(view.querySelector('.info'), S.k === 'i1' ? POSE[ans.goal] || 'squat' : 'breathe'); return; }
+  h += `<h1 class="q">${Q.h}</h1>${Q.s ? `<p class="qs">${Q.s}</p>` : (S.type === 'many' || S.type === 'grid') ? `<p class="qs">${D.pickMany}</p>` : '<div style="height:12px"></div>'}`;
+  if (S.type === 'one') {
+    h += `<div class="opts" role="radiogroup">${S.order.map((v) => {
+      const o = Q.o[v], lab = Array.isArray(o) ? o[0] : o, sub = Array.isArray(o) ? o[1] : '';
+      const lead = S.thumbs ? `<span class="th">${thumb(S.thumbs[v])}</span>` : S.k === 'level' || S.k === 'days' || S.k === 'time' ? `<span class="ic">${S.k === 'days' && v === 5 ? '5+' : v}</span>` : '';
+      return `<button type="button" class="opt" role="radio" aria-pressed="${sel(S.k, v)}" aria-checked="${sel(S.k, v)}" data-one="${v}">${lead}<span class="t">${lab}${sub ? `<small>${sub}</small>` : ''}</span></button>`;
+    }).join('')}</div>${step === 0 ? `<p class="hint">${lang === 'pt' ? 'Não precisa de equipamento. Só um tapete.' : 'No equipment needed. Just a mat.'}</p>` : ''}`;
+  } else if (S.type === 'grid') {
+    h += `<div class="grid2">${S.order.map((v) => `<button type="button" class="card" role="checkbox" aria-checked="${sel(S.k, v)}" data-many="${v}"><span class="th">${thumb(S.thumbs[v])}</span><span class="box">${tick}</span>${Q.o[v]}</button>`).join('')}</div>
+      <button type="button" class="btn block next" data-next ${(ans[S.k] || []).length ? '' : 'disabled'}>${D.next}</button>`;
+  } else if (S.type === 'many') {
+    h += `<div class="opts">${S.order.map((v) => `<button type="button" class="opt" role="checkbox" aria-checked="${sel(S.k, v)}" data-many="${v}"><span class="t">${Q.o[v]}</span><span class="box">${tick}</span></button>`).join('')}</div>
+      <button type="button" class="btn block next" data-next ${(ans[S.k] || []).length ? '' : 'disabled'}>${D.next}</button>`;
+  } else if (S.type === 'text') {
+    h += `<form data-form="name"><input class="field-big" id="f-name" type="text" autocomplete="given-name" autocapitalize="words" maxlength="20" placeholder="${Q.ph}" value="${esc(ans.name || '')}">
+      <button type="submit" class="btn block next">${D.next}</button></form><button type="button" class="skip" data-skip>${D.skip}</button>`;
+  } else if (S.type === 'email') {
+    h += `<form data-form="email" novalidate><input class="field-big" id="f-email" type="email" inputmode="email" autocomplete="email" autocapitalize="off" spellcheck="false" maxlength="200" placeholder="${Q.ph}" value="${esc(ans.email || '')}">
+      <p class="err" id="f-err" hidden>${Q.bad}</p>
+      <button type="submit" class="btn block next" id="f-go">${Q.btn}</button><p class="consent">${Q.consent}</p></form>`;
+  }
+  view.innerHTML = h + '</div>';
+  const inp = view.querySelector('.field-big'); if (inp && matchMedia('(pointer:fine)').matches) inp.focus();
+}
+function drawInfo(k){
+  if (k === 'i1') {
+    const areas = (ans.areas || []).map((a) => D.q.areas.o[a]);
+    return `<div class="info">${scene('i', 'fig')}<h1 class="q">${D.i1h}</h1><p>${D.i1p}</p>${areas.length ? `<p style="font-size:15px;margin-top:4px">${D.i1f}</p><div class="pills">${areas.map((a) => `<span>${a}</span>`).join('')}</div>` : ''}
+      <button type="button" class="btn block next" data-next style="max-width:420px">${D.next}</button></div>`;
+  }
+  const m = D.i2[ans.obstacle] || D.i2.start;
+  return `<div class="info">${scene('i', 'fig')}<h1 class="q">${m[0]}</h1><p>${fill(m[1], { n:NCLASS, s:NSTYLE })}</p>
+    <button type="button" class="btn block next" data-next style="max-width:420px">${D.next}</button></div>`;
 }
 function drawLoading(){
-  view.innerHTML = `<div class="view load"><div id="ld">${scene('l', 200)}</div><h1 class="q" style="margin:0">${D.load}</h1>
-    <ul class="checks">${[D.l1, D.l2, D.l3].map((t) => `<li><span class="ck">${tick}</span>${t}</li>`).join('')}</ul></div>`;
-  animate(document.getElementById('ld'), POSE[ans.goal]);
+  view.innerHTML = `<div class="view load"><div id="ld">${scene('l', 'fig')}</div><h1 class="q" style="margin:0">${D.load}</h1>
+    <ul class="checks">${[D.l1, D.l2, D.l3, D.l4].map((t) => `<li><span class="ck">${tick}</span>${t}</li>`).join('')}</ul></div>`;
+  animate(document.getElementById('ld'), POSE[ans.goal] || 'squat');
   const items = view.querySelectorAll('.checks li');
   let i = 0;
   const next = () => {
-    if (i < items.length) { items[i++].classList.add('on'); loadTimer = setTimeout(next, reduce ? 250 : 650); }
-    else loadTimer = setTimeout(() => { step = 4; draw(); scrollTo(0, 0); }, reduce ? 200 : 450);
+    if (i < items.length) { items[i++].classList.add('on'); loadTimer = setTimeout(next, reduce ? 200 : 600); }
+    else loadTimer = setTimeout(() => { step = RESULT; draw(); scrollTo(0, 0); }, reduce ? 150 : 400);
   };
-  loadTimer = setTimeout(next, 350);
+  loadTimer = setTimeout(next, 300);
+}
+function weekPlan(){
+  // Coming from an e-mail: show exactly the classes we e-mailed her.
+  if (Array.isArray(ans.plan) && ans.plan.length) {
+    const C = P.CLASSES, w = ans.plan.filter((id) => C[id]).map((id) => ({ id, min:C[id].min, level:C[id].level, hero:C[id].hero, en:C[id].en.title, pt:C[id].title }));
+    if (w.length) return w;
+  }
+  return P.firstWeek(ans);
 }
 function drawResult(){
-  const yearly = plan === 'yearly';
+  const yearly = plan === 'yearly', wk = weekPlan(), name = (ans.name || '').trim();
+  const days = Number(ans.days) || wk.length, time = Number(ans.time) || 15;
+  const focus = D.focus[ans.goal] || D.focus.corpo;
+  const areas = (ans.areas || []).map((a) => D.q.areas.o[a]).join(', ');
+  if (!seen.result) { seen.result = 1; track('quiz_result', { src }); }
   view.innerHTML = `<div class="view ready">
-    <div><p class="kick">${D.rk}</p><h1>${fill(D.rh, { f:D.focus[ans.goal], m:ans.time })}</h1></div>
-    <div class="plancard"><div id="pc">${scene('p', 92)}</div>
-      <dl><dt>${D.dGoal}</dt><dd>${D.goal[ans.goal]}</dd><dt>${D.dLevel}</dt><dd>${D.lv[ans.level]}</dd><dt>${D.dTime}</dt><dd>${fill(D.perDay, { m:ans.time })}</dd></dl></div>
+    <div><p class="kick">${D.rk}</p><h1>${name ? fill(D.rhN, { name:esc(name), f:focus }) : fill(D.rh, { f:focus })}</h1><p class="qs" style="margin:8px 0 0">${fill(D.rsub, { m:time, d:days >= 5 ? '5+' : days })}</p></div>
+    <div class="plancard"><div id="pc">${scene('p', 'fig')}</div>
+      <dl><dt>${D.dGoal}</dt><dd>${cap((D.q.goal.o[ans.goal] || '').replace(/^(A|Um|Uma) /, ''))}</dd>${areas ? `<dt>${D.dFocus}</dt><dd>${areas}</dd>` : ''}<dt>${D.dLevel}</dt><dd>${D.lv[ans.level] || D.lv[1]}</dd><dt>${D.dTime}</dt><dd>${fill(D.perDay, { m:time, d:days >= 5 ? '5+' : days })}</dd></dl></div>
+    ${member ? `<div class="note info" style="margin:0">${D.member} <a href="/login?email=${encodeURIComponent(ans.email || '')}" style="font-weight:600">${D.memberBtn}</a></div>` : ''}
+    <h2 class="h2s">${D.week}</h2>
+    <div class="week">${wk.map((c, i) => `<div class="day"><span class="th">${thumb(c.hero)}</span><span><small>${fill(D.day, { n:i + 1 })}</small><b>${esc(c[lang])}</b></span><span class="mn">${c.min} ${D.min}</span></div>`).join('')}</div>
     <ul class="gets"><li>${check}<span>${D.g1}</span></li><li>${check}<span>${D.g2}</span></li><li>${check}<span>${D.g3}</span></li></ul>
     <h2 class="h2s">${D.choose}</h2>
     <div class="pick" role="radiogroup">
@@ -255,40 +418,101 @@ function drawResult(){
       <button type="button" class="pl${yearly ? '' : ' on'}" role="radio" aria-checked="${!yearly}" data-plan="monthly"><span class="rd"></span>
         <span class="nm"><b>${D.mN}</b><small>${D.mS}</small></span><span class="pr"><b>${D.mP}</b><small>${D.mU}</small></span></button>
     </div>
-    <div class="cta"><a class="btn block" id="go" href="#">${D.cta}</a><p class="fine">${yearly ? D.fineY : D.fineM}</p>
-      <p class="fine" id="soon" hidden>${D.soon}</p></div>
+    <div class="cta"><a class="btn block" id="go" href="#">${D.cta}</a><p class="fine">${yearly ? D.fineY : D.fineM}</p><p class="fine" id="soon" hidden>${D.soon}</p></div>
     <div class="trust"><span>${check}${D.tr1}</span><span>${check}${D.tr2}</span><span>${check}${D.tr3}</span></div>
     <ol class="tl"><li><b>${D.t1h}</b><span>${D.t1p}</span></li><li><b>${D.t2h}</b><span>${D.t2p}</span></li><li><b>${D.t3h}</b><span>${fill(D.t3p, { p:yearly ? D.yP + ' ' + D.yU : D.mP + ' ' + D.mU })}</span></li></ol>
+    <h2 class="h2s">${D.faqH}</h2>
+    <div class="faq">${D.faq.map(([q, a]) => `<details><summary>${q}</summary><p>${a}</p></details>`).join('')}</div>
     <button type="button" class="again" data-again>${D.again}</button>
   </div>`;
-  animate(document.getElementById('pc'), POSE[ans.goal]);
+  animate(document.getElementById('pc'), POSE[ans.goal] || 'squat');
   setLink();
 }
 function setLink(){
   const a = document.getElementById('go'); if (!a) return;
   const url = links[plan];
-  if (url) { a.href = url + (url.indexOf('?') === -1 ? '?' : '&') + 'client_reference_id=' + encodeURIComponent('start_' + src); a.removeAttribute('aria-disabled'); document.getElementById('soon').hidden = true; }
-  else if (links.loaded) { a.removeAttribute('href'); a.setAttribute('aria-disabled', 'true'); document.getElementById('soon').hidden = false; }
+  if (url) {
+    let u = url + (url.indexOf('?') === -1 ? '?' : '&') + 'client_reference_id=' + encodeURIComponent('start_' + src);
+    if (ans.email) u += '&prefilled_email=' + encodeURIComponent(ans.email);
+    a.href = u; a.removeAttribute('aria-disabled'); document.getElementById('soon').hidden = true;
+  } else if (links.loaded) { a.removeAttribute('href'); a.setAttribute('aria-disabled', 'true'); document.getElementById('soon').hidden = false; }
 }
+
+/* ---------- Saving ---------- */
+function saveLocal(){
+  ans.goals = P.quizGoals(ans);
+  const keep = Object.assign({}, ans); delete keep.pains;
+  Aira.store.set('aira.quiz', JSON.stringify(keep));
+}
+async function sendLead(){
+  const body = { email:ans.email, name:ans.name || '', lang, src, answers:Object.assign({}, ans, { plan:weekPlan().map((c) => c.id) }) };
+  delete body.answers.pains; delete body.answers.email; delete body.answers.name; delete body.answers.goals;
+  try {
+    const ctl = new AbortController(); const tm = setTimeout(() => ctl.abort(), 5000);
+    const r = await fetch('/api/lead', { method:'POST', headers:{ 'Content-Type':'application/json' }, body:JSON.stringify(body), signal:ctl.signal });
+    clearTimeout(tm);
+    const d = await r.json().catch(() => ({}));
+    if (d.token) token = d.token;
+    member = !!d.member;
+  } catch (e) {}
+}
+function go(n){ step = n; draw(); scrollTo(0, 0); }
 
 /* ---------- Taps ---------- */
 view.addEventListener('click', (e) => {
-  const o = e.target.closest('.opt');
-  if (o) {
-    const k = KEYS[step]; ans[k] = k === 'goal' ? o.dataset.v : Number(o.dataset.v);
-    o.classList.add('on');
-    setTimeout(() => { step++; if (step === 3) Aira.store.set('aira.quiz', JSON.stringify(ans)); draw(); }, 160);
+  const S = STEPS[step];
+  const one = e.target.closest('[data-one]');
+  if (one && S) {
+    const v = one.dataset.one; ans[S.k] = typeof S.order[0] === 'number' ? Number(v) : v;
+    view.querySelectorAll('[data-one]').forEach((b) => { const on = b === one; b.setAttribute('aria-pressed', on); b.setAttribute('aria-checked', on); });
+    setTimeout(() => go(step + 1), 170);
     return;
   }
+  const many = e.target.closest('[data-many]');
+  if (many && S) {
+    const v = many.dataset.many; let cur = ans[S.k] || [];
+    if (S.only && v === S.only) cur = cur.indexOf(v) === -1 ? [v] : [];
+    else { cur = cur.filter((x) => x !== S.only); cur = cur.indexOf(v) === -1 ? cur.concat(v) : cur.filter((x) => x !== v); }
+    ans[S.k] = cur;
+    view.querySelectorAll('[data-many]').forEach((b) => b.setAttribute('aria-checked', cur.indexOf(b.dataset.many) !== -1));
+    const nx = view.querySelector('[data-next]'); if (nx) nx.disabled = !cur.length;
+    return;
+  }
+  if (e.target.closest('[data-next]')) { go(step + 1); return; }
+  if (e.target.closest('[data-skip]')) { ans.name = ''; go(step + 1); return; }
   const p = e.target.closest('[data-plan]');
   if (p) { plan = p.dataset.plan; drawResult(); return; }
-  if (e.target.closest('[data-again]')) { step = 0; ans = {}; Aira.store.del('aira.quiz'); draw(); scrollTo(0, 0); return; }
-  if (e.target.closest('#go[aria-disabled]')) e.preventDefault();
+  if (e.target.closest('#go')) { if (e.target.closest('[aria-disabled]')) { e.preventDefault(); return; } track('checkout_click', { plan, src }); return; }
+  if (e.target.closest('[data-again]')) { step = 0; ans = { email:ans.email, name:ans.name }; seen = {}; Aira.store.del('aira.quiz'); seen = {}; go(0); return; }
 });
-back.addEventListener('click', () => { if (step > 0 && step < 3) { step--; draw(); } });
+view.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const f = e.target.dataset.form;
+  if (f === 'name') { ans.name = (document.getElementById('f-name').value || '').trim().replace(/[<>"]/g, '').slice(0, 20); go(step + 1); return; }
+  if (f === 'email') {
+    const v = (document.getElementById('f-email').value || '').trim().toLowerCase();
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v)) { document.getElementById('f-err').hidden = false; document.getElementById('f-email').focus(); return; }
+    ans.email = v; saveLocal(); track('quiz_lead', { src });
+    const btn = document.getElementById('f-go'); btn.disabled = true;
+    go(LOADING);
+    await sendLead();
+  }
+});
+back.addEventListener('click', () => { if (step > 0 && step < LOADING) go(step - 1); });
 
+/* ---------- Start ---------- */
 Aira.config().then((c) => { links = { monthly:c.linkMonthly, yearly:c.linkYearly, loaded:true }; setLink(); });
-Aira.translatePage(T, (l, d) => { D = d; draw(); });
+Aira.translatePage(T, (l, d) => { D = d; lang = l === 'pt' ? 'pt' : 'en'; draw(); });
+
+// Coming back from an e-mail link: /start?l=<token> shows her saved plan.
+const lt = qs.get('l');
+if (lt) {
+  fetch('/api/lead?t=' + encodeURIComponent(lt)).then((r) => r.ok ? r.json() : null).then((d) => {
+    if (!d || !d.answers || !d.answers.goal) return;
+    ans = Object.assign({}, d.answers, { email:d.email, name:d.name || '' }); token = lt;
+    saveLocal(); step = RESULT; draw();
+  }).catch(() => {});
+}
 })();
 </script>
 </body>

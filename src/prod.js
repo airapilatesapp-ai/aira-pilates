@@ -97,7 +97,7 @@ async function loadProgress(){
   if (!pick) {
     const ul = ACC.user.user_metadata && ACC.user.user_metadata.lang;
     if (!Aira.store.get('aira.lang') && (ul === 'pt' || ul === 'en')) s.lang = ul;
-    try { const q = JSON.parse(Aira.store.get('aira.quiz') || 'null'); if (q) { if (q.goal) s.goals = [q.goal]; if (q.level) s.level = q.level; if (q.time) s.time = q.time; } } catch (e) {}
+    try { const q = JSON.parse(Aira.store.get('aira.quiz') || 'null'); if (q) { const gs = (q.goals || [q.goal]).filter((g) => GOALS.some((x) => x.id === g)); if (gs.length) s.goals = gs; if (q.level) s.level = Number(q.level); if (q.time) s.time = Number(q.time); if (q.name && !s.name) s.name = String(q.name).slice(0, 20); } } catch (e) {}
   }
   return s;
 }

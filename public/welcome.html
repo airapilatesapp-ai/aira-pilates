@@ -10,6 +10,8 @@
 <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600&family=Inter:wght@400;500;600&display=swap">
 <link rel="stylesheet" href="/assets/site.css">
+<script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
+<script defer src="/_vercel/insights/script.js"></script>
 <style>
 .check{width:72px;height:72px;border-radius:50%;background:var(--sage);display:flex;align-items:center;justify-content:center}
 .tips{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:12px}
@@ -67,6 +69,7 @@ const where = document.getElementById('where');
 const paint = () => { if (masked) where.innerHTML = D.pTo.replace('{e}', esc(masked)); };
 Aira.translatePage(T, (l, d) => { D = d; paint(); });
 const sid = new URLSearchParams(location.search).get('session_id');
+if (sid) { try { window.va('event', { name:'trial_started' }); } catch (e) {} }
 if (sid) fetch('/api/checkout-session?session_id=' + encodeURIComponent(sid)).then(r => r.ok ? r.json() : null).then(j => { if (j && j.email) { masked = j.email; paint(); } }).catch(() => {});
 })();
 </script>
