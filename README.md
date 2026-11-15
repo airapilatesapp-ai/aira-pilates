@@ -42,12 +42,17 @@ Site de vendas, app (PWA) e ligação com Stripe e Supabase. Sem pacotes externo
 | `RESEND_API_KEY` | Chave da API do Resend (`re_…`) para os e-mails do quiz |
 | `CRON_SECRET` | Uma senha aleatória qualquer; a Vercel usa para chamar `api/cron-leads` |
 | `COMPANY_ADDRESS` | Endereço postal mostrado no rodapé dos e-mails do quiz (exigido pela lei americana CAN-SPAM) |
+| `META_CAPI_TOKEN` | Token da API de Conversões do Meta (Gerenciador de Eventos → Aira Pilates → Configurações). Sem ele, só o Pixel do navegador funciona |
+| `META_TEST_EVENT_CODE` | Opcional. Código da aba "Eventos de teste"; apague depois de testar |
 
 ## Comandos
 
 - `node scripts/build.mjs`: gera o app a partir de `src/` (a Vercel roda sozinha a cada publicação).
 - `node scripts/test-webhook.mjs`: testa o webhook com uma Stripe e um Supabase de mentira.
 - `node scripts/test-leads.mjs`: testa os e-mails do quiz com um Supabase e um Resend de mentira.
+- `node scripts/test-meta.mjs`: testa os eventos enviados ao Meta (Lead, StartTrial, Purchase) sem internet.
+
+O Pixel do Meta (ID 1449562126688655) fica em `public/assets/meta.js` e só carrega na página inicial, no quiz e na página de boas-vindas, nunca dentro do app. As respostas do quiz nunca vão para o Meta.
 
 ## Eventos que o webhook precisa receber
 

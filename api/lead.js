@@ -3,6 +3,7 @@ import { saveLead, getLead, leadByToken, updateLead, isMember } from '../lib/sup
 import { sendMail } from '../lib/mail.js';
 import { leadEmail, FOLLOW_UP_HOURS } from '../lib/lead-emails.js';
 import { CLASSES } from '../lib/classes.js';
+import { visitor, metaEvent, sendMeta } from '../lib/meta.js';
 
 const json = (status, body) => new Response(JSON.stringify(body), { status, headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' } });
 const appUrl = (req) => (process.env.APP_URL || new URL(req.url).origin).replace(/\/+$/, '');
@@ -38,6 +39,10 @@ export async function POST(request) {
     const before = await getLead(email);
     const member = await isMember(email);
     let lead = await saveLead(row);
+    // Server copy of the pixel's Lead event (same id, so Meta counts it once). Only the hashed e-mail goes out.
+    const metaId = String(b.meta_id || '').replace(/[^\w-]/g, '').slice(0, 80);
+    const v = visitor(request);
+    if (metaId && !v.gpc) await sendMeta(metaEvent({ name: 'Lead', id: metaId, email, url: `${appUrl(request)}/start`, v }));
     if (member) {
       if (!lead.converted_at) await updateLead(email, { converted_at: new Date().toISOString(), next_email_at: null });
       return json(200, { token: lead.token, member: true });

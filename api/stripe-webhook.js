@@ -2,6 +2,7 @@
 // It keeps the "subscribers" table in Supabase up to date and e-mails the access link after checkout.
 import { verifyStripeSignature, stripeGet, subscriptionRow } from '../lib/stripe.js';
 import { upsertSubscriber, updateByCustomer, ensureUser, sendAccessLink, updateLead } from '../lib/supabase.js';
+import { metaEvent, sendMeta } from '../lib/meta.js';
 
 const json = (status, data) => new Response(JSON.stringify(data), { status, headers: { 'Content-Type': 'application/json' } });
 const appUrl = () => (process.env.APP_URL || '').replace(/\/+$/, '');
@@ -49,6 +50,11 @@ export async function handleEvent(event) {
       if (!subId) return { skipped: 'invoice without subscription' };
       const sub = await stripeGet(`subscriptions/${typeof subId === 'string' ? subId : subId.id}`);
       await syncSubscription(sub);
+      // A real charge (first payment after the trial, or a renewal): tell Meta, so ads can learn who pays.
+      if (event.type === 'invoice.payment_succeeded' && obj.amount_paid > 0 && obj.customer_email) {
+        await sendMeta(metaEvent({ name: 'Purchase', id: `inv_${obj.id}`, email: obj.customer_email, source: 'system_generated',
+          custom: { value: obj.amount_paid / 100, currency: String(obj.currency || 'usd').toUpperCase() } }));
+      }
       return { ok: `invoice ${event.type.split('.').pop()}` };
     }
     default:

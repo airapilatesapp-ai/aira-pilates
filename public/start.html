@@ -20,6 +20,7 @@
 <link rel="stylesheet" href="/assets/site.css">
 <script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
 <script defer src="/_vercel/insights/script.js"></script>
+<script src="/assets/meta.js"></script>
 <style>
 body{min-height:100vh;min-height:100dvh;display:flex;flex-direction:column}
 .bar{position:sticky;top:0;z-index:5;background:var(--bg);padding:12px 0 10px}
@@ -186,7 +187,7 @@ const T = {
       obstacle:{ h:'What has gotten in the way before?', o:{ time:'Not enough time', motivation:'Staying motivated', start:'Not knowing where to start', pain:'Aches or past injuries', boring:'Getting bored' } },
       name:{ h:'What\'s your first name?', s:'So we can make the plan yours.', ph:'Your first name' },
       email:{ h:'Where should we send your plan?', s:'Your plan is ready. We\'ll e-mail you a copy so you don\'t lose it.', ph:'you@example.com', btn:'Show my plan', bad:'Please type a valid e-mail.',
-        consent:'We\'ll send your plan and up to 3 e-mails about it. Unsubscribe anytime. See our <a href="/privacy" target="_blank">Privacy Policy</a>.' }
+        consent:'We\'ll send your plan and up to 3 e-mails about it. Unsubscribe anytime. We use Meta cookies to measure our ads. See our <a href="/privacy" target="_blank">Privacy Policy</a>.' }
     },
     i1h:'You\'re in the right place', i1p:'Pilates is low-impact and kind to your joints, and it builds deep strength at 20, 40, 60 and beyond.', i1f:'Your plan will focus on:',
     i2:{
@@ -236,7 +237,7 @@ const T = {
       obstacle:{ h:'O que te atrapalhou até hoje?', o:{ time:'Falta de tempo', motivation:'Manter a motivação', start:'Não saber por onde começar', pain:'Dores ou lesões antigas', boring:'Enjoar dos treinos' } },
       name:{ h:'Qual é o seu primeiro nome?', s:'Para deixar o plano com a sua cara.', ph:'Seu primeiro nome' },
       email:{ h:'Para onde mandamos seu plano?', s:'Seu plano está pronto. Vamos te mandar uma cópia por e-mail para você não perder.', ph:'voce@exemplo.com', btn:'Ver meu plano', bad:'Digite um e-mail válido.',
-        consent:'Vamos mandar seu plano e no máximo 3 e-mails sobre ele. Cancele quando quiser. Veja a <a href="/privacy" target="_blank">Política de Privacidade</a>.' }
+        consent:'Vamos mandar seu plano e no máximo 3 e-mails sobre ele. Cancele quando quiser. Usamos cookies da Meta para medir nossos anúncios. Veja a <a href="/privacy" target="_blank">Política de Privacidade</a>.' }
     },
     i1h:'Você está no lugar certo', i1p:'O Pilates é de baixo impacto, gentil com as articulações e constrói força profunda aos 20, 40, 60 anos e depois.', i1f:'Seu plano vai focar em:',
     i2:{
@@ -301,7 +302,7 @@ const tick = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke
 const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const track = (name, data) => { try { window.va('event', data ? { name, data } : { name }); } catch (e) {} };
 
-let D = T.en, lang = 'en', step = 0, ans = {}, plan = 'yearly', links = {}, anim = 0, loadTimer = 0, token = '', member = false, seen = {};
+let D = T.en, lang = 'en', step = 0, ans = {}, plan = 'yearly', links = {}, anim = 0, loadTimer = 0, token = '', member = false, seen = {}, metaId = '';
 const qs = new URLSearchParams(location.search);
 // Where the visitor came from, e.g. /start?src=reel12 → shows up in Stripe as "start_reel12".
 const src = (qs.get('src') || 'direct').replace(/[^a-zA-Z0-9_-]/g, '').slice(0, 40) || 'direct';
@@ -445,7 +446,7 @@ function saveLocal(){
   Aira.store.set('aira.quiz', JSON.stringify(keep));
 }
 async function sendLead(){
-  const body = { email:ans.email, name:ans.name || '', lang, src, answers:Object.assign({}, ans, { plan:weekPlan().map((c) => c.id) }) };
+  const body = { email:ans.email, name:ans.name || '', lang, src, meta_id:metaId, answers:Object.assign({}, ans, { plan:weekPlan().map((c) => c.id) }) };
   delete body.answers.pains; delete body.answers.email; delete body.answers.name; delete body.answers.goals;
   try {
     const ctl = new AbortController(); const tm = setTimeout(() => ctl.abort(), 5000);
@@ -482,7 +483,7 @@ view.addEventListener('click', (e) => {
   if (e.target.closest('[data-skip]')) { ans.name = ''; go(step + 1); return; }
   const p = e.target.closest('[data-plan]');
   if (p) { plan = p.dataset.plan; drawResult(); return; }
-  if (e.target.closest('#go')) { if (e.target.closest('[aria-disabled]')) { e.preventDefault(); return; } track('checkout_click', { plan, src }); return; }
+  if (e.target.closest('#go')) { if (e.target.closest('[aria-disabled]')) { e.preventDefault(); return; } track('checkout_click', { plan, src }); if (window.airaMeta) airaMeta.ev('InitiateCheckout', {}); return; }
   if (e.target.closest('[data-again]')) { step = 0; ans = { email:ans.email, name:ans.name }; seen = {}; Aira.store.del('aira.quiz'); seen = {}; go(0); return; }
 });
 view.addEventListener('submit', async (e) => {
@@ -493,6 +494,8 @@ view.addEventListener('submit', async (e) => {
     const v = (document.getElementById('f-email').value || '').trim().toLowerCase();
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v)) { document.getElementById('f-err').hidden = false; document.getElementById('f-email').focus(); return; }
     ans.email = v; saveLocal(); track('quiz_lead', { src });
+    // Ads measurement: one Lead per browser, with an id our server repeats so Meta counts it once.
+    if (window.airaMeta && airaMeta.on && !Aira.store.get('aira.mlead')) { metaId = airaMeta.newId('lead'); airaMeta.ev('Lead', {}, metaId); Aira.store.set('aira.mlead', '1'); }
     const btn = document.getElementById('f-go'); btn.disabled = true;
     go(LOADING);
     await sendLead();
@@ -505,7 +508,7 @@ Aira.config().then((c) => { links = { monthly:c.linkMonthly, yearly:c.linkYearly
 Aira.translatePage(T, (l, d) => { D = d; lang = l === 'pt' ? 'pt' : 'en'; draw(); });
 
 // Coming back from an e-mail link: /start?l=<token> shows her saved plan.
-const lt = qs.get('l');
+const lt = (window.airaPrivate && window.airaPrivate.l) || qs.get('l');
 if (lt) {
   fetch('/api/lead?t=' + encodeURIComponent(lt)).then((r) => r.ok ? r.json() : null).then((d) => {
     if (!d || !d.answers || !d.answers.goal) return;
