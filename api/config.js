@@ -5,6 +5,9 @@ export function GET() {
     supabaseKey: process.env.SUPABASE_PUBLIC_KEY || '',
     linkMonthly: process.env.STRIPE_LINK_MONTHLY || '',
     linkYearly: process.env.STRIPE_LINK_YEARLY || '',
+    // Brazilian prices in reais, shown to visitors who use the site in Portuguese.
+    linkMonthlyBR: process.env.STRIPE_LINK_MONTHLY_BR || '',
+    linkYearlyBR: process.env.STRIPE_LINK_YEARLY_BR || '',
     portalLink: process.env.STRIPE_PORTAL_LINK || '',
     appUrl: (process.env.APP_URL || '').replace(/\/+$/, ''),
     supportEmail: process.env.SUPPORT_EMAIL || '',

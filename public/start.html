@@ -431,7 +431,7 @@ function drawResult(){
 }
 function setLink(){
   const a = document.getElementById('go'); if (!a) return;
-  const url = links[plan];
+  const url = lang === 'pt' && links.br ? links[plan + 'BR'] : links[plan];
   if (url) {
     let u = url + (url.indexOf('?') === -1 ? '?' : '&') + 'client_reference_id=' + encodeURIComponent('start_' + src);
     if (ans.email) u += '&prefilled_email=' + encodeURIComponent(ans.email);
@@ -504,7 +504,11 @@ view.addEventListener('submit', async (e) => {
 back.addEventListener('click', () => { if (step > 0 && step < LOADING) go(step - 1); });
 
 /* ---------- Start ---------- */
-Aira.config().then((c) => { links = { monthly:c.linkMonthly, yearly:c.linkYearly, loaded:true }; setLink(); });
+Aira.config().then((c) => {
+  links = { monthly:c.linkMonthly, yearly:c.linkYearly, monthlyBR:c.linkMonthlyBR, yearlyBR:c.linkYearlyBR, br:Aira.hasBR(c), loaded:true };
+  if (links.br) { Aira.toBRL(T.pt); if (lang === 'pt') { D = T.pt; draw(); } }
+  setLink();
+});
 Aira.translatePage(T, (l, d) => { D = d; lang = l === 'pt' ? 'pt' : 'en'; draw(); });
 
 // Coming back from an e-mail link: /start?l=<token> shows her saved plan.

@@ -233,7 +233,7 @@
         <div class="plan best">
           <span class="tag" data-i18n="p.save">Save 58%</span>
           <h3 data-i18n="p.y">Yearly</h3>
-          <div class="price"><b>$49.99</b><span data-i18n="p.yr">/ year</span></div>
+          <div class="price"><b data-i18n="p.yP">$49.99</b><span data-i18n="p.yr">/ year</span></div>
           <p class="small" data-i18n="p.ym">Just $4.17 a month, billed once a year after your free week.</p>
           <ul>
             <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5B3F7A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg><span data-i18n="p.b1">Every class and exercise</span></li>
@@ -245,7 +245,7 @@
         </div>
         <div class="plan">
           <h3 data-i18n="p.m">Monthly</h3>
-          <div class="price"><b>$9.99</b><span data-i18n="p.mo">/ month</span></div>
+          <div class="price"><b data-i18n="p.mP">$9.99</b><span data-i18n="p.mo">/ month</span></div>
           <p class="small" data-i18n="p.mm">Pay month to month after your free week.</p>
           <ul>
             <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5B3F7A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg><span data-i18n="p.b1">Every class and exercise</span></li>
@@ -326,7 +326,7 @@ const T = {
     'h.3h':'Feel the change','h.3p':"Track your streak, and move up a level when you're ready. The classes get harder as you get stronger.",
     'q.eb':'30-second quiz','q.h':'Find the plan made for you.',
     'p.eb':'Plans','p.h':'Start free for 7 days.','p.p':"You won't be charged today. Cancel before the trial ends and you pay nothing.",
-    'p.save':'Save 58%','p.y':'Yearly','p.yr':'/ year','p.ym':'Just $4.17 a month, billed once a year after your free week.',
+    'p.yP':'$49.99','p.mP':'$9.99','p.save':'Save 58%','p.y':'Yearly','p.yr':'/ year','p.ym':'Just $4.17 a month, billed once a year after your free week.',
     'p.m':'Monthly','p.mo':'/ month','p.mm':'Pay month to month after your free week.',
     'p.b1':'Every class and exercise','p.b2':'Voice coach in English or Portuguese','p.b3':'Plans that adapt to your level',
     'p.cta':'Start my free week','p.fy':'7 days free, then $49.99/year.','p.fm':'7 days free, then $9.99/month.','p.soon':'Sign-ups open very soon.',
@@ -371,7 +371,7 @@ const T = {
     'h.3h':'Sinta a diferença','h.3p':'Acompanhe sua sequência de dias e suba de nível quando estiver pronta. As aulas evoluem junto com você.',
     'q.eb':'Quiz de 30 segundos','q.h':'Descubra o plano feito para você.',
     'p.eb':'Planos','p.h':'Comece com 7 dias grátis.','p.p':'Nada é cobrado hoje. Cancele antes do fim do teste e você não paga nada.',
-    'p.save':'Economize 58%','p.y':'Anual','p.yr':'/ ano','p.ym':'Só US$ 4,17 por mês, cobrado uma vez por ano depois da semana grátis.',
+    'p.yP':'US$ 49,99','p.mP':'US$ 9,99','p.save':'Economize 58%','p.y':'Anual','p.yr':'/ ano','p.ym':'Só US$ 4,17 por mês, cobrado uma vez por ano depois da semana grátis.',
     'p.m':'Mensal','p.mo':'/ mês','p.mm':'Pague mês a mês depois da semana grátis.',
     'p.b1':'Todas as aulas e exercícios','p.b2':'Voz guia em inglês ou português','p.b3':'Planos que se adaptam ao seu nível',
     'p.cta':'Começar minha semana grátis','p.fy':'7 dias grátis, depois US$ 49,99 por ano.','p.fm':'7 dias grátis, depois US$ 9,99 por mês.','p.soon':'As inscrições abrem em breve.',
@@ -432,15 +432,26 @@ box.addEventListener('click', (e) => {
 });
 
 /* ---------- Plans: links come from the server settings ---------- */
-Aira.config().then((c) => {
-  const links = { monthly: c.linkMonthly, yearly: c.linkYearly };
+let planCfg = null;
+function setPlanLinks() {
+  if (!planCfg) return;
+  const c = planCfg, br = L === 'pt' && Aira.hasBR(c);
+  const links = br ? { monthly: c.linkMonthlyBR, yearly: c.linkYearlyBR } : { monthly: c.linkMonthly, yearly: c.linkYearly };
   let missing = false;
   document.querySelectorAll('[data-plan]').forEach((a) => {
     const url = links[a.dataset.plan];
-    if (url) a.href = url;
+    if (url) { a.href = url; a.removeAttribute('aria-disabled'); }
     else { a.setAttribute('aria-disabled', 'true'); a.removeAttribute('href'); missing = true; }
   });
   document.getElementById('soon').hidden = !missing;
+}
+Aira.config().then((c) => {
+  planCfg = c;
+  if (Aira.hasBR(c)) {   // Portuguese visitors see and pay prices in reais
+    Aira.toBRL(T.pt);
+    if (L === 'pt') document.querySelectorAll('[data-i18n]').forEach((el) => { const v = T.pt[el.dataset.i18n]; if (v !== undefined) el.innerHTML = v; });
+  }
+  setPlanLinks();
   if (c.supportEmail) { const s = document.getElementById('support'); s.href = 'mailto:' + c.supportEmail; s.hidden = false; }
 });
 
@@ -469,7 +480,7 @@ function startHero(){
 }
 
 /* ---------- Language + header shadow ---------- */
-L = Aira.translatePage(T, (l, d) => { L = l; D = d; drawQuiz(); if (F) { nameEl.textContent = label(SHOW[idx], 'name'); lastCue = ''; if (reduce) cueEl.textContent = label(SHOW[idx], 'tip'); } });
+L = Aira.translatePage(T, (l, d) => { L = l; D = d; setPlanLinks(); drawQuiz(); if (F) { nameEl.textContent = label(SHOW[idx], 'name'); lastCue = ''; if (reduce) cueEl.textContent = label(SHOW[idx], 'tip'); } });
 if (F) startHero();
 document.getElementById('yr').textContent = new Date().getFullYear();
 const top = document.getElementById('top');

@@ -61,5 +61,18 @@
     const l = lang(); apply(l); return l;
   }
 
-  window.Aira = { store, config, supabase, lang, setLang, translatePage };
+
+  /* Brazilian prices. Used only when the site is in Portuguese and both reais checkout links exist,
+     so Portuguese visitors without those links still see the dollar prices they would pay. */
+  const BRL = [
+    [/US\$(&nbsp;|\s)?49,99/g, 'R$$$1149,90'], [/US\$(&nbsp;|\s)?9,99/g, 'R$$$119,90'],
+    [/US\$(&nbsp;|\s)?4,17/g, 'R$$$112,49'], [/US\$(&nbsp;|\s)?0\b/g, 'R$$$10'], [/Economize 58%/g, 'Economize 37%'],
+  ];
+  const hasBR = (c) => !!(c && c.linkMonthlyBR && c.linkYearlyBR);
+  function toBRL(dict) {
+    const conv = (v) => typeof v === 'string' ? BRL.reduce((t, [re, to]) => t.replace(re, to), v) : Array.isArray(v) ? v.map(conv) : v;
+    Object.keys(dict).forEach((k) => { dict[k] = conv(dict[k]); });
+  }
+
+  window.Aira = { store, config, supabase, lang, setLang, translatePage, hasBR, toBRL };
 })();
