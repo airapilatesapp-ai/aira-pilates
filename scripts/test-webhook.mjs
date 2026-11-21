@@ -114,9 +114,20 @@ const raw = JSON.stringify({ type: 'x', data: { object: {} } });
 r = await send(JSON.parse(raw), sign(raw, 'whsec_test', Math.floor(Date.now() / 1000) - 3600));
 assert.equal(r.status, 400);
 
-// 10. One-time payment checkouts are ignored.
-r = await send({ type: 'checkout.session.completed', data: { object: { mode: 'payment' } } });
-assert.equal(r.status, 200); assert.ok(r.body.skipped);
+// 10. One-time payment (Desafio 30 Dias) not yet paid: nothing happens.
+r = await send({ type: 'checkout.session.completed', data: { object: { mode: 'payment', payment_status: 'unpaid', customer_details: { email: 'ana@example.com' } } } });
+assert.equal(r.status, 200); assert.ok(r.body.skipped); assert.equal(db.subscribers['ana@example.com'], undefined);
+
+// 11. One-time payment paid: 12 months of access and the access e-mail.
+const before = db.emails.length;
+r = await send({ type: 'checkout.session.completed', data: { object: { id: 'cs_1', mode: 'payment', payment_status: 'paid', amount_total: 4700, currency: 'brl', locale: 'pt-BR', customer: null, customer_details: { email: 'Ana@Example.com' } } } });
+assert.equal(r.status, 200, JSON.stringify(r.body));
+const ana = db.subscribers['ana@example.com'];
+assert.equal(ana.status, 'active'); assert.equal(ana.plan, 'desafio'); assert.equal(ana.stripe_customer_id, undefined);
+const days = (new Date(ana.current_period_end) - Date.now()) / 86400000;
+assert.ok(days > 364 && days < 366, 'access lasts a year');
+assert.ok(db.users['ana@example.com']);
+assert.equal(db.emails.length, before + 1); assert.equal(db.emails[before].to, 'ana@example.com');
 
 stripe.close(); supa.close();
-console.log('All webhook tests passed (10 scenarios).');
+console.log('All webhook tests passed (11 scenarios).');

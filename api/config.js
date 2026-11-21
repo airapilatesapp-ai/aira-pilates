@@ -8,6 +8,8 @@ export function GET() {
     // Brazilian prices in reais, shown to visitors who use the site in Portuguese.
     linkMonthlyBR: process.env.STRIPE_LINK_MONTHLY_BR || '',
     linkYearlyBR: process.env.STRIPE_LINK_YEARLY_BR || '',
+    // One-time R$47 "Desafio 30 Dias" checkout, used by the sales page /desafio.
+    linkDesafio: process.env.STRIPE_LINK_DESAFIO || '',
     portalLink: process.env.STRIPE_PORTAL_LINK || '',
     appUrl: (process.env.APP_URL || '').replace(/\/+$/, ''),
     supportEmail: process.env.SUPPORT_EMAIL || '',

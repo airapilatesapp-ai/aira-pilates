@@ -21,10 +21,33 @@ async function syncSubscription(sub) {
   return upsertSubscriber({ email, ...row });
 }
 
+// One-time purchase (the "Desafio 30 Dias", R$47): 12 months of app access, no renewal.
+const ACCESS_DAYS = 365;
+async function oneTimeAccess(obj) {
+  if (obj.payment_status !== 'paid') return { skipped: 'payment not completed yet' };
+  const email = (obj.customer_details && obj.customer_details.email) || obj.customer_email;
+  if (!email) return { skipped: 'no email on session' };
+  const until = new Date(Date.now() + ACCESS_DAYS * 86400000).toISOString();
+  const row = { email, status: 'active', plan: 'desafio', current_period_end: until, trial_end: null, cancel_at_period_end: false };
+  const customer = typeof obj.customer === 'string' ? obj.customer : obj.customer && obj.customer.id;
+  if (customer) row.stripe_customer_id = customer;
+  await upsertSubscriber(row);
+  const lang = /^en/i.test(obj.locale || '') ? 'en' : 'pt';
+  await ensureUser(email, lang);
+  await sendAccessLink(email, appUrl() ? `${appUrl()}/app/` : undefined);
+  try { await updateLead(email, { converted_at: new Date().toISOString(), next_email_at: null }); } catch (err) { console.error('lead converted', err); }
+  if (obj.amount_total > 0) {
+    await sendMeta(metaEvent({ name: 'Purchase', id: `cs_${obj.id}`, email, source: 'website',
+      custom: { value: obj.amount_total / 100, currency: String(obj.currency || 'brl').toUpperCase() } }));
+  }
+  return { ok: 'one-time access sent' };
+}
+
 export async function handleEvent(event) {
   const obj = event.data && event.data.object;
   switch (event.type) {
     case 'checkout.session.completed': {
+      if (obj.mode === 'payment') return oneTimeAccess(obj);
       if (obj.mode !== 'subscription' || !obj.subscription) return { skipped: 'not a subscription checkout' };
       const email = (obj.customer_details && obj.customer_details.email) || obj.customer_email;
       if (!email) return { skipped: 'no email on session' };

@@ -1750,7 +1750,7 @@ document.addEventListener('visibilitychange', () => { if (document.hidden && S.s
 const PX = {
   pt: {
     acct:'Conta', email:'E-mail', plan:'Plano', status:'Situação', monthly:'Mensal', yearly:'Anual',
-    trial:'Teste grátis até {d}', active:'Ativa · renova em {d}', ending:'Termina em {d}', pastDue:'Problema no pagamento',
+    trial:'Teste grátis até {d}', until:'Acesso até {d}', active:'Ativa · renova em {d}', ending:'Termina em {d}', pastDue:'Problema no pagamento',
     manage:'Gerenciar assinatura', signout:'Sair da conta', opening:'Abrindo…', portalErr:'Não deu para abrir agora. Tente de novo em instantes ou escreva para {m}.',
     payH:'Seu último pagamento não passou.', payP:'Atualize o cartão para continuar com acesso às aulas.', payA:'Atualizar cartão',
     pwH:'Sua assinatura não está ativa', pwNone:'Não encontramos uma assinatura para {e}.', pwEnded:'Sua assinatura terminou. Volte quando quiser: seu progresso continua salvo.',
@@ -1763,7 +1763,7 @@ const PX = {
   },
   en: {
     acct:'Account', email:'E-mail', plan:'Plan', status:'Status', monthly:'Monthly', yearly:'Yearly',
-    trial:'Free trial until {d}', active:'Active · renews {d}', ending:'Ends {d}', pastDue:'Payment problem',
+    trial:'Free trial until {d}', until:'Access until {d}', active:'Active · renews {d}', ending:'Ends {d}', pastDue:'Payment problem',
     manage:'Manage subscription', signout:'Sign out', opening:'Opening…', portalErr:"We couldn't open it right now. Try again in a moment or write to {m}.",
     payH:"Your last payment didn't go through.", payP:'Update your card to keep access to your classes.', payA:'Update card',
     pwH:"Your membership isn't active", pwNone:"We couldn't find a membership for {e}.", pwEnded:'Your membership has ended. Come back any time: your progress is saved.',
@@ -1777,6 +1777,8 @@ const PX = {
 };
 const px = (k, v) => { let s = (PX[S.lang] || PX.en)[k] || ''; if (v) Object.keys(v).forEach((x) => { s = s.replace('{' + x + '}', v[x]); }); return s; };
 const ALLOWED = ['trialing', 'active', 'past_due'];
+// The one-time "Desafio" purchase has no renewal: access ends at current_period_end.
+const hasAccess = (s) => !!s && ALLOWED.indexOf(s.status) !== -1 && !(s.plan === 'desafio' && s.current_period_end && new Date(s.current_period_end) < new Date());
 const KEEP = ['lang','name','goals','level','time','favs','voice','log','sessions','onboarded','installSeen'];
 const ACC = { sb:null, user:null, sub:null, cfg:{}, promptEvt:null,
   standalone: (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) || navigator.standalone === true };
@@ -1853,6 +1855,7 @@ function subLine(){
   const s = ACC.sub; if (!s) return '';
   if (s.status === 'past_due' || s.status === 'unpaid') return px('pastDue');
   if (s.status === 'trialing') return px('trial', { d:fmtDay(s.trial_end || s.current_period_end) });
+  if (s.plan === 'desafio') return px('until', { d:fmtDay(s.current_period_end) });
   if (s.cancel_at_period_end) return px('ending', { d:fmtDay(s.current_period_end) });
   return px('active', { d:fmtDay(s.current_period_end) });
 }
@@ -1979,7 +1982,7 @@ async function boot(){
   S = await loadProgress();
   computeStats();
   lastSnap = JSON.stringify(snapshot());
-  S.screen = (!ACC.sub || ALLOWED.indexOf(ACC.sub.status) === -1) ? 'paywall' : (S.onboarded ? 'home' : 'goals');
+  S.screen = !hasAccess(ACC.sub) ? 'paywall' : (S.onboarded ? 'home' : 'goals');
   if (S.screen === 'home' && !ACC.standalone && !S.installSeen) S.showInstall = true;
   render(false);
   ACC.sb.auth.onAuthStateChange((ev) => { if (ev === 'SIGNED_OUT') location.replace('/login'); });

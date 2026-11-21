@@ -1,5 +1,5 @@
 /* Meta (Facebook / Instagram) Pixel, used to measure and improve our ads.
-   Loaded only on the website pages (home, quiz, welcome), never inside the app.
+   Loaded only on the website pages (home, quiz, sales page, welcome), never inside the app.
    It sends page views and three steps: Lead (e-mail in the quiz), InitiateCheckout and StartTrial.
    Quiz answers are never sent, and automatic button and page scanning is turned off.
    Visitors who opt out on the privacy page, or whose browser sends Global Privacy Control, get no pixel. */

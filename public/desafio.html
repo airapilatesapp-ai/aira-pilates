@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Desafio 30 Dias de Pilates em Casa · Aira</title>
+<meta name="description" content="Assista à aula: como conquistar um corpo de modelo com só 10 minutos de Pilates por dia, em casa.">
+<meta name="theme-color" content="#F6F3F8">
+<meta name="robots" content="noindex">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Desafio 30 Dias de Pilates em Casa">
+<meta property="og:description" content="Assista à aula: corpo de modelo com 10 minutos de Pilates por dia, em casa.">
+<meta property="og:image" content="https://airapilates.app/assets/og.png">
+<meta property="og:url" content="https://airapilates.app/desafio">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://player-vz-b390be26-62c.tv.pandavideo.com.br">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600&family=Inter:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="/assets/site.css">
+<script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
+<script defer src="/_vercel/insights/script.js"></script>
+<script src="/assets/meta.js"></script>
+<style>
+  html{background:var(--bg)}
+  body{min-height:100vh;background:radial-gradient(1200px 600px at 50% -10%, #EFE6F6 0%, rgba(246,243,248,0) 70%) no-repeat, var(--bg)}
+  .lp-top{display:flex;justify-content:center;padding:18px 20px 0}
+  .lp-top img{height:26px;width:auto}
+  .vsl{width:100%;max-width:920px;margin:0 auto;padding:18px 16px 48px;text-align:center}
+  .vsl h1{font-size:clamp(23px,4.4vw,38px);font-weight:600;margin:6px auto 18px;max-width:820px}
+  .vsl h1 em{font-style:normal;color:var(--plum)}
+  .player{position:relative;width:100%;aspect-ratio:16/9;border-radius:18px;overflow:hidden;background:#1E1528;box-shadow:0 20px 50px rgba(59,38,80,.22)}
+  .player iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+  .sound{margin:12px 0 0;font-size:14px;color:var(--muted)}
+  .cta{margin:26px auto 0;max-width:560px;opacity:0;transform:translateY(14px);transition:opacity .6s ease,transform .6s ease}
+  .cta.show{opacity:1;transform:none}
+  .buy{display:block;width:100%;padding:20px 18px;border-radius:999px;background:#2FA35B;color:#fff;text-decoration:none;font-family:var(--font-display);font-weight:600;font-size:clamp(19px,3.6vw,24px);letter-spacing:.5px;box-shadow:0 14px 34px rgba(47,163,91,.38);animation:pulse 2.2s ease-in-out infinite}
+  .buy:hover{color:#fff;background:#27904F}
+  .buy[aria-disabled="true"]{background:#9AA79F;box-shadow:none;animation:none;cursor:not-allowed}
+  @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.03)}}
+  @media (prefers-reduced-motion: reduce){ .buy{animation:none} .cta{transition:none} }
+  .trust{display:flex;flex-wrap:wrap;justify-content:center;gap:8px 18px;margin-top:14px;font-size:14px;color:var(--muted)}
+  .trust span::before{content:'✓ ';color:var(--plum);font-weight:600}
+  footer{text-align:center;padding:0 16px 30px;font-size:13px;color:var(--muted-2)}
+  footer a{color:var(--muted-2)}
+</style>
+</head>
+<body>
+<header class="lp-top"><img src="/assets/logo.svg" alt="Aira Pilates" width="110" height="26"></header>
+<main class="vsl">
+  <h1>Assista à aula: como conquistar um <em>corpo de modelo</em> com só 10 minutos de Pilates por dia, em casa</h1>
+  <div class="player">
+    <iframe id="panda-0c46527a-29a7-485a-be2f-165aebb71438" src="https://player-vz-b390be26-62c.tv.pandavideo.com.br/embed/?v=0c46527a-29a7-485a-be2f-165aebb71438" allow="accelerometer;gyroscope;autoplay;encrypted-media;picture-in-picture" allowfullscreen fetchpriority="high" title="Aula: Desafio 30 Dias de Pilates em Casa"></iframe>
+  </div>
+  <p class="sound">🔊 Confira se o som está ligado</p>
+  <div class="cta" id="cta" hidden>
+    <a class="buy" id="buy" href="#" aria-disabled="true">GARANTIR MINHA VAGA</a>
+    <div class="trust"><span>Pagamento seguro</span><span>1 ano de acesso</span><span>7 dias de garantia</span></div>
+  </div>
+</main>
+<footer><a href="/terms">Termos</a> · <a href="/privacy">Privacidade</a></footer>
+<script src="/assets/aira.js"></script>
+<script>
+(function () {
+  'use strict';
+  // Second of the video (1.4x version) where Nora says "clica no botão aqui embaixo".
+  var REVEAL_AT = 342;
+  var SEEN_KEY = 'aira.desafio.cta';
+  var cta = document.getElementById('cta'), buy = document.getElementById('buy');
+  var src = new URLSearchParams(location.search).get('src') || '';
+  var shown = false;
+
+  function show() {
+    if (shown) return; shown = true;
+    cta.hidden = false;
+    requestAnimationFrame(function () { requestAnimationFrame(function () { cta.classList.add('show'); }); });
+    try { localStorage.setItem(SEEN_KEY, '1'); } catch (e) {}
+    if (window.va) window.va('event', { name: 'desafio_cta_shown', src: src });
+  }
+
+  // Panda's player sends its current time to the page while the video plays.
+  window.addEventListener('message', function (e) {
+    if (!/pandavideo\.com\.br$/.test((function () { try { return new URL(e.origin).hostname; } catch (x) { return ''; } })())) return;
+    var d = e.data;
+    if (typeof d === 'string') { try { d = JSON.parse(d); } catch (x) { return; } }
+    if (!d || typeof d !== 'object') return;
+    var time = Number(d.currentTime != null ? d.currentTime : d.time);
+    if (/timeupdate/i.test(String(d.message || d.event || d.type || '')) && time >= REVEAL_AT) show();
+  });
+
+  // Back for a second visit, or testing with ?botao=1: show it right away.
+  var seen = false; try { seen = localStorage.getItem(SEEN_KEY) === '1'; } catch (e) {}
+  if (seen || new URLSearchParams(location.search).get('botao') === '1') show();
+
+  // Checkout link comes from the site settings (Vercel: STRIPE_LINK_DESAFIO).
+  Aira.config().then(function (c) {
+    if (!c.linkDesafio) return;
+    var u = new URL(c.linkDesafio);
+    if (src) u.searchParams.set('client_reference_id', src.replace(/[^\w-]/g, '').slice(0, 60));
+    buy.href = u.toString(); buy.removeAttribute('aria-disabled');
+  }).catch(function () {});
+
+  buy.addEventListener('click', function (e) {
+    if (buy.getAttribute('aria-disabled') === 'true') { e.preventDefault(); return; }
+    if (window.airaMeta) airaMeta.ev('InitiateCheckout', { value: 47, currency: 'BRL' });
+    if (window.va) window.va('event', { name: 'desafio_checkout_click', src: src });
+  });
+
+  if (window.airaMeta) airaMeta.ev('ViewContent', { content_name: 'Desafio 30 Dias' });
+})();
+</script>
+</body>
+</html>
