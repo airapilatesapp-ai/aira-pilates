@@ -71,11 +71,11 @@
   var src = new URLSearchParams(location.search).get('src') || '';
   var shown = false;
 
-  function show() {
+  function show(remember) {
     if (shown) return; shown = true;
     cta.hidden = false;
     requestAnimationFrame(function () { requestAnimationFrame(function () { cta.classList.add('show'); }); });
-    try { localStorage.setItem(SEEN_KEY, '1'); } catch (e) {}
+    if (remember) try { localStorage.setItem(SEEN_KEY, '1'); } catch (e) {}
     if (window.va) window.va('event', { name: 'desafio_cta_shown', src: src });
   }
 
@@ -86,12 +86,15 @@
     if (typeof d === 'string') { try { d = JSON.parse(d); } catch (x) { return; } }
     if (!d || typeof d !== 'object') return;
     var time = Number(d.currentTime != null ? d.currentTime : d.time);
-    if (/timeupdate/i.test(String(d.message || d.event || d.type || '')) && time >= REVEAL_AT) show();
+    if (/timeupdate/i.test(String(d.message || d.event || d.type || '')) && time >= REVEAL_AT) show(true);
   });
 
-  // Back for a second visit, or testing with ?botao=1: show it right away.
+  // Back after watching up to the call to action: show it right away.
+  // ?botao=1 shows it for a quick test without remembering it; ?botao=0 forgets it on this phone.
+  var q = new URLSearchParams(location.search).get('botao');
+  if (q === '0') try { localStorage.removeItem(SEEN_KEY); } catch (e) {}
   var seen = false; try { seen = localStorage.getItem(SEEN_KEY) === '1'; } catch (e) {}
-  if (seen || new URLSearchParams(location.search).get('botao') === '1') show();
+  if (seen || q === '1') show(false);
 
   // Checkout link comes from the site settings (Vercel: STRIPE_LINK_DESAFIO).
   Aira.config().then(function (c) {
