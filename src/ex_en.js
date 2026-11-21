@@ -43,6 +43,9 @@ const EX_EN = {
   plank:['Plank with Leg Lift','Body in a straight line from head to heels. Lift one leg without letting your hips sag.','Exhale and lift your leg','Inhale and lower'],
   sidePlank:['Forearm Side Plank','Supported on your forearm, lift your hips until your body forms a line. Your top arm reaches to the ceiling.','Exhale and lift your hips','Inhale and lower'],
   jacks:['Pilates Jumping Jacks','Open your arms and legs together at an easy pace, landing with soft knees.','Open','Close'],
-  climber:['Mountain Climber','In a plank, drive one knee toward your chest and switch in rhythm, without lifting your hips.','Switch','Switch']
+  climber:['Mountain Climber','In a plank, drive one knee toward your chest and switch in rhythm, without lifting your hips.','Switch','Switch'],
+  crisscross:['Criss-Cross','Hands behind your head, elbows wide. Rotate your torso, bringing your shoulder toward the opposite knee as the other leg extends.','Exhale and twist to one side','Exhale and twist to the other side'],
+  saw:['Saw','Sit with your legs apart and arms open. Twist and reach your hand toward the opposite foot, as if sawing off your little toe.','Exhale, twist and reach','Inhale and come back to center'],
+  clamshell:['Clamshell','Lie on your side, knees bent and feet together. Open your top knee without letting your hips roll back.','Exhale and open your knee','Inhale and close slowly']
 };
 Object.keys(EX_EN).forEach(id => { const x = EX_EN[id]; EX[id].en = { name:x[0], tip:x[1], cueAB:x[2], cueBA:x[3] }; });

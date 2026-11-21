@@ -95,6 +95,8 @@ async function loadProgress(){
     const a = local.log || {}, b = remote.log || {}; s.log = Object.assign({}, b);
     Object.keys(a).forEach((k) => { s.log[k] = Math.max(s.log[k] || 0, a[k]); });
     s.sessions = Math.max(local.sessions || 0, remote.sessions || 0);
+    // Challenge days done on either phone both count.
+    if (local.desafio && remote.desafio && s.desafio) s.desafio.done = Object.assign({}, remote.desafio.done || {}, local.desafio.done || {}, (s.desafio.done || {}));
   }
   if (!pick) {
     const ul = ACC.user.user_metadata && ACC.user.user_metadata.lang;
@@ -237,10 +239,10 @@ async function boot(){
   S = await loadProgress();
   computeStats();
   lastSnap = JSON.stringify(snapshot());
-  S.screen = !hasAccess(ACC.sub) ? 'paywall' : (S.onboarded ? 'home' : 'goals');
-  if (S.screen === 'home' && !ACC.standalone && !S.installSeen) S.showInstall = true;
+  S.screen = !hasAccess(ACC.sub) ? 'paywall' : dzLanding();
+  if ((S.screen === 'home' || S.screen === 'desafio') && !ACC.standalone && !S.installSeen) S.showInstall = true;
   render(false);
   ACC.sb.auth.onAuthStateChange((ev) => { if (ev === 'SIGNED_OUT') location.replace('/login'); });
   if ('serviceWorker' in navigator) navigator.serviceWorker.register('/app/sw.js', { scope:'/app/' }).catch(() => {});
 }
-boot();
+// boot() runs after the challenge module (src/desafio.js) is in place; see src/app-shell.html.

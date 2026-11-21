@@ -344,7 +344,22 @@ const EX = {
     tip:'Em prancha, leve um joelho em direção ao peito e troque em ritmo, sem levantar o quadril.',
     cueAB:'Troque', cueBA:'Troque',
     A:P({face:-1,hx:154,hy:151,ta:200.5,na:200,aN1:90,aN2:90,aF1:92,aF2:92,lN1:135,lN2:0,lF1:22,lF2:22,pt:1}),
-    B:P({face:-1,hx:154,hy:151,ta:200.5,na:200,aN1:90,aN2:90,aF1:92,aF2:92,lN1:20.5,lN2:20.5,lF1:135,lF2:0,pt:1}) }
+    B:P({face:-1,hx:154,hy:151,ta:200.5,na:200,aN1:90,aN2:90,aF1:92,aF2:92,lN1:20.5,lN2:20.5,lF1:135,lF2:0,pt:1}) },
+  crisscross:{ name:'Criss-Cross (oblíquos)', level:2, focus:['core'], period:4, easy:'deadbug',
+    tip:'Mãos atrás da cabeça, cotovelos abertos. Gire o tronco levando o ombro em direção ao joelho oposto, enquanto a outra perna estende.',
+    cueAB:'Expire e gire para um lado', cueBA:'Expire e gire para o outro',
+    A:P({hx:178,hy:178,ta:200,bend:-8,na:218,aN1:255,aN2:150,aF1:250,aF2:145,lN1:-22,lN2:-22,lF1:-125,lF2:0,pt:1}),
+    B:P({hx:178,hy:178,ta:203,bend:-8,na:222,aN1:250,aN2:145,aF1:255,aF2:150,lN1:-125,lN2:0,lF1:-22,lF2:-22,pt:1}) },
+  saw:{ name:'Saw (serrote)', level:1, focus:['core','mobilidade'], period:8,
+    tip:'Sentada, pernas afastadas e braços abertos. Gire o tronco e leve a mão em direção ao pé oposto, como se serrasse o dedinho.',
+    cueAB:'Expire, gire e alcance o pé', cueBA:'Inspire e volte ao centro',
+    A:P({hx:140,hy:180,ta:270,na:270,aN1:0,aN2:0,aF1:180,aF2:180,lN1:0,lN2:0,lF1:-1,lF2:-1,pt:0.1}),
+    B:P({hx:140,hy:180,ta:318,bend:-12,na:380,aN1:22,aN2:22,aF1:215,aF2:215,lN1:0,lN2:0,lF1:-1,lF2:-1,pt:0.1}) },
+  clamshell:{ name:'Concha (abertura de joelho)', level:1, focus:['gluteos'], period:5,
+    tip:'Deitada de lado, joelhos dobrados e pés juntos. Abra o joelho de cima sem deixar o quadril rolar para trás.',
+    cueAB:'Expire e abra o joelho', cueBA:'Inspire e feche devagar',
+    A:P({view:'front',hx:172,hy:172,ta:180,na:180,hw:7,sw:10,aN1:5,aN2:5,aF1:180,aF2:180,lN1:18,lN2:168,lF1:22,lF2:170}),
+    B:P({view:'front',hx:172,hy:172,ta:180,na:180,hw:7,sw:10,aN1:5,aN2:5,aF1:180,aF2:180,lN1:-15,lN2:150,lF1:22,lF2:170}) }
 };
 
 /* ---------------- English (US) content: [name, tip, phase 1 cue, phase 2 cue] ---------------- */
@@ -392,7 +407,10 @@ const EX_EN = {
   plank:['Plank with Leg Lift','Body in a straight line from head to heels. Lift one leg without letting your hips sag.','Exhale and lift your leg','Inhale and lower'],
   sidePlank:['Forearm Side Plank','Supported on your forearm, lift your hips until your body forms a line. Your top arm reaches to the ceiling.','Exhale and lift your hips','Inhale and lower'],
   jacks:['Pilates Jumping Jacks','Open your arms and legs together at an easy pace, landing with soft knees.','Open','Close'],
-  climber:['Mountain Climber','In a plank, drive one knee toward your chest and switch in rhythm, without lifting your hips.','Switch','Switch']
+  climber:['Mountain Climber','In a plank, drive one knee toward your chest and switch in rhythm, without lifting your hips.','Switch','Switch'],
+  crisscross:['Criss-Cross','Hands behind your head, elbows wide. Rotate your torso, bringing your shoulder toward the opposite knee as the other leg extends.','Exhale and twist to one side','Exhale and twist to the other side'],
+  saw:['Saw','Sit with your legs apart and arms open. Twist and reach your hand toward the opposite foot, as if sawing off your little toe.','Exhale, twist and reach','Inhale and come back to center'],
+  clamshell:['Clamshell','Lie on your side, knees bent and feet together. Open your top knee without letting your hips roll back.','Exhale and open your knee','Inhale and close slowly']
 };
 Object.keys(EX_EN).forEach(id => { const x = EX_EN[id]; EX[id].en = { name:x[0], tip:x[1], cueAB:x[2], cueBA:x[3] }; });
 
