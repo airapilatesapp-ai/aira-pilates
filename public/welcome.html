@@ -71,9 +71,19 @@ const paint = () => { if (masked) where.innerHTML = D.pTo.replace('{e}', esc(mas
 Aira.translatePage(T, (l, d) => { D = d; paint(); });
 const sid = (window.airaPrivate && window.airaPrivate.session_id) || new URLSearchParams(location.search).get('session_id');
 const meta = window.airaMeta && window.airaMeta.on;
-if (sid) { try { window.va('event', { name:'trial_started' }); } catch (e) {} }
-if (sid && meta) window.airaMeta.ev('StartTrial', {}, 'trial_' + sid);
-if (sid) fetch('/api/checkout-session?session_id=' + encodeURIComponent(sid) + (meta ? '&m=1' : '')).then(r => r.ok ? r.json() : null).then(j => { if (j && j.email) { masked = j.email; paint(); } }).catch(() => {});
+// The one-time "Desafio 30 Dias" purchase has no free week: change the heading and count it as a purchase.
+const ONE_TIME = { en:"You're in. Your 30-Day Challenge is unlocked.", pt:'Pronto! Seu Desafio 30 Dias está liberado.' };
+function counted(j){
+  if (j && j.mode === 'payment') {
+    const h = document.querySelector('[data-i18n="h"]'); if (h) h.textContent = ONE_TIME[Aira.lang()] || ONE_TIME.pt;
+    try { window.va('event', { name:'desafio_purchased' }); } catch (e) {}
+    if (meta && j.paid) window.airaMeta.ev('Purchase', { value:j.amount || 47, currency:j.currency || 'BRL' }, 'cs_' + sid);
+    return;
+  }
+  try { window.va('event', { name:'trial_started' }); } catch (e) {}
+  if (meta) window.airaMeta.ev('StartTrial', {}, 'trial_' + sid);
+}
+if (sid) fetch('/api/checkout-session?session_id=' + encodeURIComponent(sid) + (meta ? '&m=1' : '')).then(r => r.ok ? r.json() : null).then(j => { counted(j); if (j && j.email) { masked = j.email; paint(); } }).catch(() => counted(null));
 })();
 </script>
 </body>

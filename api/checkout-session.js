@@ -25,7 +25,8 @@ export async function GET(request) {
       const origin = (process.env.APP_URL || new URL(request.url).origin).replace(/\/+$/, '');
       await sendMeta(metaEvent({ name: 'StartTrial', id: `trial_${id}`, email, url: `${origin}/welcome`, v }));
     }
-    return json(200, { email: mask(email), paid: s.status === 'complete' });
+    return json(200, { email: mask(email), paid: s.status === 'complete', mode: s.mode,
+      amount: typeof s.amount_total === 'number' ? s.amount_total / 100 : null, currency: String(s.currency || '').toUpperCase() });
   } catch (err) {
     return json(404, { error: 'session not found' });
   }
